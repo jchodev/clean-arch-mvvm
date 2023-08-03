@@ -29,7 +29,7 @@ Apply with jUnit5
 
 | Library | Used For | Remark |
 |----- | ------ | ------ |
-| navigator | Switch two fragment  | Will implement later |
+| navigator | Switch two fragment  | Will implement second page later |
 | databing | binding layout xml to class level | Will be implement jetpack compose later |
 | hilt | Dependency injection `di`  | ------ |
 
