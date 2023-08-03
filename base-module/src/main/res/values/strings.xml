@@ -1,0 +1,5 @@
+<resources>
+    <string name="retry">Retry</string>
+    <string name="record_not_found_error">Record not found, Please try again later</string>
+    <string name="some_error">Something went wrong. Please try again later</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Cleanarchmvvm" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="HomeActivityTheme" parent="Theme.MaterialComponents.DayNight">
+        <!-- ... -->
+        <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+    </style>
+</resources>

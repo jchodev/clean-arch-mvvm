@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/fragmentContainerHome"
+    >
+
+    <fragment
+        android:id="@+id/fragmentContainerHome"
+        android:name="com.jerry.clean_arch_mvvm.assetpage.presentation.AssetsFragment"
+        android:label="fragment_assets"
+        tools:layout="@layout/fragment_assets">
+<!--        <action-->
+<!--            android:id="@+id/action_fragmentContainerHome_to_fragmentMarket"-->
+<!--            app:destination="@id/fragmentMarket" />-->
+    </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/fragmentMarket"-->
+<!--        android:name="com.yoti.android.cryptocurrencychallenge.ui.market.MarketFragment"-->
+<!--        android:label="fragment_market"-->
+<!--        tools:layout="@layout/fragment_market"-->
+<!--        />-->
+</navigation>

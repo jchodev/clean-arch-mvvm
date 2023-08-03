@@ -1,0 +1,45 @@
+apply plugin: 'kotlin-kapt'
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+dependencies {
+
+    // Dependency injection
+    implementation "${di.hiltAndroid}"
+    kapt "${di.hiltCompiler}"
+
+    //constraintlayout
+    implementation "${androidx.constraintlayout}"
+
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_convertor"
+    implementation "com.squareup.okhttp3:logging-interceptor:$retrofit_logging_interceptor"
+
+    //scope
+    implementation "${androidx.viewModelScope}"
+    implementation "${androidx.lifecycleScope}"
+
+
+    implementation "${androidx.appcompat}"
+
+    //navigation
+    implementation "${androidx.navigation_fragment}"
+    implementation "${androidx.navigation_ui}"
+
+
+    // JUnit 5
+    testImplementation "${test.junit_jupiter_api}"
+    testImplementation "${test.junit_jupiter_params}"
+    testRuntimeOnly "${test.junit_jupiter_engine}"
+    testRuntimeOnly "${test.junit_vintage_engine}"
+
+    testImplementation "${test.coroutines_test}"
+    testImplementation "${test.mockk}"
+
+    androidTestImplementation "${test.hiltAndroidTest}"
+    kaptAndroidTest "${test.hiltKaptAndroidTest}"
+
+}
