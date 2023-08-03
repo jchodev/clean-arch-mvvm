@@ -21,6 +21,7 @@ import javax.inject.Named
 @HiltViewModel
 class AssetsViewModel @Inject constructor(
     //we assign the dispatcher at here, BECAUSE for junit testing
+    //https://developer.android.com/kotlin/coroutines/test
     @Named("Dispatchers.Main")
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getAssetsUseCase: GetAssetsUseCase,
