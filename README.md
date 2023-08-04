@@ -1,9 +1,13 @@
 # clean-arch-mvvm
-This is self study project ONLY.
+
+**This is self study and playing roject ONLY.**
 
 
 ## In this project, was implementation with
-`Clean Architecture with MVVM`
+
+### Clean Architecture with MVVM
+
+
 | Layer | Description |
 |----- | ------ |
 | Presentation Layer | view, view model (MVVM)  |
@@ -11,30 +15,31 @@ This is self study project ONLY.
 | Data Layer | datamapping, Repository Impl.  |
 
 
-`Modularization patterns`
+### Modularization patterns
 
-This concerns modularization at the page level (List & Detail) with studiny ONLY.
+This concerns modularization at the page level (List & Detail) 
 
-if any app only has two pages (a list page and a detail page), this pattern may not need to be applied in a real-world application.
 
-`Unit test`
+### Unit test
 
 Apply with jUnit5
 
-`UI test`
+
+### UI test
 
 --TODO
 
-`Library`
+
+### Library
 
 | Library | Used For | Remark |
 |----- | ------ | ------ |
-| navigator | Switch two fragment  | Will implement second page later |
+| navigator | Switch two fragment  | ----- |
 | databing | binding layout xml to class level | Will be implement jetpack compose later |
 | hilt | Dependency injection `di`  | ------ |
 
 
-`Project Structure`
+### Project Structure
 
 ```
 project
@@ -50,10 +55,14 @@ project
 │   │        
 └───asset-page <--module 1
     │   with Clean Architecture with MVVM
+    │   │
+└───market-page <--module 2
+    │   with Clean Architecture with MVVM
     │   │    
 ```
 
 ## TODO
-1. Add detail page
-2. add UI test
+1. add UI test
+2. Add jacocoReport
 3. Add new pages with jetpack compose
+4. ...
