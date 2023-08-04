@@ -21,7 +21,7 @@ class AssetsAdapter constructor(
                         parent,
                         false
                 ),
-                onLinkClicked = onItemClick
+                onItemClick = onItemClick
         )
     }
 
@@ -42,7 +42,7 @@ class AssetsAdapter constructor(
 
 class AssetItemViewHolder(
     private val binding: AssetItemBinding,
-    private val onLinkClicked: (String) -> Unit = {}
+    private val onItemClick: (String) -> Unit = {}
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(asset: AssetUiItem) {
@@ -52,7 +52,7 @@ class AssetItemViewHolder(
 
         binding.root.setOnClickListener {
             asset.id?.let {
-                onLinkClicked(it)
+                onItemClick(it)
             }
         }
     }

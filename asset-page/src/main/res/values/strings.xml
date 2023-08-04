@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="market_deep_link" translatable="false">android-app://com.jerry.clean_arch_mvvm/fragment_market/{baseId}</string>
+</resources>

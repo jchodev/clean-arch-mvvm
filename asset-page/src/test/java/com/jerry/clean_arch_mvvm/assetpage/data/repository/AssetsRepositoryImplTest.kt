@@ -52,11 +52,7 @@ class AssetsRepositoryImplTest {
     }
 
     @Test
-    fun `test AssetsRepositoryImpl getAssets() return customer error`() {
-        val assetsFailedResponse = AssetsTestStubs.testAssetsResponseData.copy(
-            assetData = null,
-            error = AssetsTestStubs.errorMessage
-        )
+    fun `test AssetsRepositoryImpl getAssets() throws exception`() {
         runTest {
 
             assetsRepositoryImpl = AssetsRepositoryImpl(
@@ -81,6 +77,29 @@ class AssetsRepositoryImplTest {
             Assertions.assertTrue(
                 exceptionThrown
             )
+        }
+    }
+
+    @Test
+    fun `test AssetsRepositoryImpl getAssets() return customer error`() {
+        val response = AssetsTestStubs.testAssetsResponseData.copy(
+            assetData = null,
+            error = AssetsTestStubs.errorMessage
+        )
+        runTest {
+
+            assetsRepositoryImpl = AssetsRepositoryImpl(
+                assetServiceApi =  assetServiceApi,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+
+            //assign
+            coEvery { assetServiceApi.getAssets() } returns response
+            //action
+            val actual = assetsRepositoryImpl.getAssets()
+
+            //verify
+            Assertions.assertEquals(response.error, actual.error)
         }
     }
 

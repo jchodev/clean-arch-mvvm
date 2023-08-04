@@ -1,13 +1,18 @@
 package com.jerry.clean_arch_mvvm.assetpage.presentation
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 
 import com.jerry.clean_arch_mvvm.assetpage.R
 import com.jerry.clean_arch_mvvm.assetpage.databinding.FragmentAssetsBinding
@@ -26,7 +31,7 @@ class AssetsFragment : BaseFragment(R.layout.fragment_assets) {
     private lateinit var assetsAdapter: AssetsAdapter
 
     private val onItemClick: (String) -> Unit = {
-        //navigateToMarketPage(id = it)
+        navigateToMarketPage(id = it)
     }
 
     override fun onCreateView(
@@ -94,10 +99,18 @@ class AssetsFragment : BaseFragment(R.layout.fragment_assets) {
     }
 
     private fun navigateToMarketPage(id: String) {
-//        NavHostFragment.findNavController(this).navigate(
-//            R.id.action_fragmentContainerHome_to_fragmentMarket,
-//            MarketFragment.createBundle(baseId = id)
-//        )
+        val request = NavDeepLinkRequest.Builder
+            .fromUri(
+                //"android-app://com.jerry.clean_arch_mvvm/fragment_market".toUri()
+                Uri.parse(
+                    getString(R.string.market_deep_link).replace(
+                        "{baseId}",
+                        id
+                    )
+                )
+            )
+            .build()
+        findNavController().navigate(request)
     }
 
     private fun getData(){

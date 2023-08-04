@@ -16,3 +16,4 @@ rootProject.name = "clean-arch-mvvm"
 include ':app'
 include ':asset-page'
 include ':base-module'
+include ':market-page'

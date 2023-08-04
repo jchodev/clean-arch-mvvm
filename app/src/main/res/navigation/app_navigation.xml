@@ -16,10 +16,18 @@
 <!--            app:destination="@id/fragmentMarket" />-->
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/fragmentMarket"-->
-<!--        android:name="com.yoti.android.cryptocurrencychallenge.ui.market.MarketFragment"-->
-<!--        android:label="fragment_market"-->
-<!--        tools:layout="@layout/fragment_market"-->
-<!--        />-->
+    <fragment
+        android:id="@+id/fragmentMarket"
+        android:name="com.jerry.clean_arch_mvvm.marketpage.presentation.MarketFragment"
+        android:label="fragment_market"
+        tools:layout="@layout/fragment_market">
+        <!--https://developer.android.com/guide/navigation/integrations/multi-module-->
+
+        <argument
+            android:name="baseId"
+            app:argType="string" />
+
+        <deepLink
+            app:uri="@string/market_deep_link"/>
+    </fragment>
 </navigation>

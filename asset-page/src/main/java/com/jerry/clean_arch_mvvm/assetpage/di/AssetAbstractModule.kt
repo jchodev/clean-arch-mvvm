@@ -17,5 +17,4 @@ abstract class AssetAbstractModule {
     @Singleton
     abstract fun bindAssetsRepository(assetsRepositoryImpl: AssetsRepositoryImpl): AssetsRepository
 
-
 }

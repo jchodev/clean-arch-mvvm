@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exchange_id_title">Exchange ID</string>
+    <string name="rank_title">Rank</string>
+    <string name="price_title">Price</string>
+    <string name="date_title">Date</string>
+
+</resources>

@@ -2,6 +2,7 @@ package com.jerry.clean_arch_mvvm.assetpage
 
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.api.AssetData
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.api.AssetsResponseData
+import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 
 class AssetsTestStubs {
 
@@ -45,6 +46,11 @@ class AssetsTestStubs {
                 error = null,
                 timestamp = null
             )
-
+        val testAssetUiItem = AssetUiItem(
+            id = null,
+            symbol = null,
+            name = null,
+            price = null
+        )
     }
 }

@@ -2,6 +2,7 @@ package com.jerry.clean_arch_mvvm.assetpage.di
 
 import com.jerry.clean_arch_mvvm.assetpage.data.mapper.AssetMapper
 import com.jerry.clean_arch_mvvm.assetpage.network.AssetServiceApi
+import com.jerry.clean_arch_mvvm.base.utils.DisplayUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,13 +15,13 @@ import javax.inject.Singleton
 object AssetModule {
 
     @Provides
-    fun provideAssetMapper(): AssetMapper {
-        return AssetMapper()
+    fun provideAssetMapper(displayUtil: DisplayUtil): AssetMapper {
+        return AssetMapper(displayUtil)
     }
 
     @Provides
     @Singleton
-    fun providesProductApi(retrofit: Retrofit): AssetServiceApi {
+    fun provideAssetServiceApi(retrofit: Retrofit): AssetServiceApi {
         return retrofit.create(AssetServiceApi::class.java)
     }
 

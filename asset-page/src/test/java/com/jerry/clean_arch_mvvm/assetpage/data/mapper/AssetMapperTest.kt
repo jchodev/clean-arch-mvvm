@@ -17,8 +17,8 @@ class AssetMapperTest {
 
     @BeforeEach
     fun setup() {
-        assetMapper = AssetMapper()
         displayUtil = DisplayUtil()
+        assetMapper = AssetMapper(displayUtil)
     }
 
     @Test
@@ -33,7 +33,6 @@ class AssetMapperTest {
 
         //action
         val actual = assetMapper.mapToUiData(
-            displayUtil = displayUtil,
             assetData = testAssetData
         )
 

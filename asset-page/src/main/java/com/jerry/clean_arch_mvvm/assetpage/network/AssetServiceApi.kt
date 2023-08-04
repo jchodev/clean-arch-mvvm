@@ -1,7 +1,9 @@
 package com.jerry.clean_arch_mvvm.assetpage.network
 
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.api.AssetsResponseData
+import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketResponseData
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface AssetServiceApi {
 

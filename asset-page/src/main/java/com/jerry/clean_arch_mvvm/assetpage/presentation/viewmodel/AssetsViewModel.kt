@@ -24,9 +24,7 @@ class AssetsViewModel @Inject constructor(
     //https://developer.android.com/kotlin/coroutines/test
     @Named("Dispatchers.Main")
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    private val getAssetsUseCase: GetAssetsUseCase,
-    private val assetMapper: AssetMapper,
-    private val displayUtil: DisplayUtil
+    private val getAssetsUseCase: GetAssetsUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<AssetUiItem>>>(UiState.Initial)
@@ -39,19 +37,15 @@ class AssetsViewModel @Inject constructor(
                 is UseCaseResult.Failure -> {
                     _uiState.value = UiState.Failure(result.throwable)
                 }
+                is UseCaseResult.CustomerError -> {
+                    _uiState.value = UiState.CustomerError(
+                        result.error
+                    )
+                }
                 is UseCaseResult.Success -> {
-                    if (result.data.error != null) {
-                        _uiState.value = UiState.CustomerError(
-                            result.data.error!!
-                        )
-                    } else {
-                        _uiState.value = UiState.Success(
-                            result.data
-                                .assetData?.map {
-                                    assetMapper.mapToUiData(displayUtil, it)
-                                } ?: emptyList()
-                        )
-                    }
+                    _uiState.value = UiState.Success(
+                        result.data
+                    )
                 }
             }
         }
