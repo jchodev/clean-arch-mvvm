@@ -63,16 +63,6 @@ object  AppModule {
             .build()
     }
 
-    @Singleton
-    @Provides
-    fun provideRetrofit(client: OkHttpClient) : Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .build()
-    }
-
     @Provides
     fun provideDisplayUtil(): DisplayUtil {
         return DisplayUtil()
