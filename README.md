@@ -62,7 +62,7 @@ project
 ```
 
 ## TODO
-1. add UI test
+1. add UI test (Preparing ... still cannot run)
 2. Add jacocoReport
 3. Add new pages with jetpack compose
 4. ...
