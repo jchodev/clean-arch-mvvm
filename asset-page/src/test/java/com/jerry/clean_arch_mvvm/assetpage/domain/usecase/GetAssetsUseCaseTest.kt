@@ -1,10 +1,9 @@
 package com.jerry.clean_arch_mvvm.assetpage.domain.usecase
 
 
-import com.jerry.clean_arch_mvvm.assetpage.AssetsTestStubs.Companion.errorMessage
-import com.jerry.clean_arch_mvvm.assetpage.AssetsTestStubs.Companion.testAssetsResponseData
+import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs.Companion.errorMessage
+import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs.Companion.testAssetsResponseData
 import com.jerry.clean_arch_mvvm.assetpage.data.mapper.AssetMapper
-import com.jerry.clean_arch_mvvm.assetpage.domain.entities.api.AssetsResponseData
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.domain.repository.AssetsRepository
 import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult

@@ -2,8 +2,8 @@ package com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel
 
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs.Companion.testStr
+import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs
+import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs.Companion.testStr
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.domain.usecase.GetMarketUseCase
 import io.mockk.coEvery

@@ -1,7 +1,7 @@
 package com.jerry.clean_arch_mvvm.marketpage.data.repository
 
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs.Companion.errorMessage
+import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs
+import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs.Companion.errorMessage
 import com.jerry.clean_arch_mvvm.marketpage.network.MarketServiceApi
 import io.mockk.coEvery
 import io.mockk.junit5.MockKExtension
@@ -23,16 +23,16 @@ class MarketRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         marketServiceApi =  mockkClass(MarketServiceApi::class)
+        marketRepositoryImpl = MarketRepositoryImpl(
+            marketServiceApi = marketServiceApi
+        )
     }
 
     @Test
     fun `test MarketRepositoryImpl getMarket() success`() {
         val successResponse = MarketTestStubs.testMarketResponseData
         runTest {
-            marketRepositoryImpl = MarketRepositoryImpl(
-                marketServiceApi = marketServiceApi,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
+
 
             //assign
             coEvery { marketServiceApi.getMarkets(any()) } returns successResponse
@@ -51,10 +51,6 @@ class MarketRepositoryImplTest {
     @Test
     fun `test MarketRepositoryImpl getMarket() throws exception`() {
         runTest {
-            marketRepositoryImpl = MarketRepositoryImpl(
-                marketServiceApi = marketServiceApi,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
 
             //assign
             coEvery { marketServiceApi.getMarkets(any()) } throws MarketTestStubs.Companion.FakeError
@@ -81,10 +77,6 @@ class MarketRepositoryImplTest {
             error = errorMessage
         )
         runTest {
-            marketRepositoryImpl = MarketRepositoryImpl(
-                marketServiceApi = marketServiceApi,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
 
             //assign
             coEvery { marketServiceApi.getMarkets(any()) } returns response

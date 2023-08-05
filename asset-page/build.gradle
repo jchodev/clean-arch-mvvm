@@ -49,4 +49,5 @@ dependencies {
 
     implementation "${androidx.swiperefreshlayout}"
 
+    testImplementation project(":shared-test")
 }

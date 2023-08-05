@@ -2,8 +2,8 @@ package com.jerry.clean_arch_mvvm.marketpage.domain.usecase
 
 import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
 import com.jerry.clean_arch_mvvm.base.utils.DisplayUtil
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs.Companion.errorMessage
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs.Companion.testMarketResponseData
+import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs.Companion.errorMessage
+import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs.Companion.testMarketResponseData
 import com.jerry.clean_arch_mvvm.marketpage.data.mapper.MarketMapper
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.domain.repository.MarketRepository

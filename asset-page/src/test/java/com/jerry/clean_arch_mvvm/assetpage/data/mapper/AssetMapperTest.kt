@@ -1,6 +1,6 @@
 package com.jerry.clean_arch_mvvm.assetpage.data.mapper
 
-import com.jerry.clean_arch_mvvm.assetpage.AssetsTestStubs
+import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs
 import com.jerry.clean_arch_mvvm.base.utils.DisplayUtil
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.ExperimentalCoroutinesApi

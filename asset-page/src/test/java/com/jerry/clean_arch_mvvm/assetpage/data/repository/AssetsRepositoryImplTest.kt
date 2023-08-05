@@ -1,7 +1,7 @@
 package com.jerry.clean_arch_mvvm.assetpage.data.repository
 
 
-import com.jerry.clean_arch_mvvm.assetpage.AssetsTestStubs
+import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs
 import com.jerry.clean_arch_mvvm.assetpage.network.AssetServiceApi
 import io.mockk.coEvery
 import io.mockk.junit5.MockKExtension

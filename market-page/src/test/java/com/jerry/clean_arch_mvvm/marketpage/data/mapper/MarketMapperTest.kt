@@ -1,8 +1,7 @@
 package com.jerry.clean_arch_mvvm.marketpage.data.mapper
 
 import com.jerry.clean_arch_mvvm.base.utils.DisplayUtil
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs.Companion.testMarketData
-import com.jerry.clean_arch_mvvm.marketpage.MarketTestStubs.Companion.testMarketResponseData
+import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs.Companion.testMarketResponseData
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.Assertions

@@ -1,10 +1,11 @@
-package com.jerry.clean_arch_mvvm.marketpage
+package com.jerry.clean_arch_mvvm.sharedtest
 
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketData
 import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketResponseData
 
 class MarketTestStubs {
+
     companion object {
         const val testStr = ""
         const val errorMessage = "this is error"
@@ -51,6 +52,5 @@ class MarketTestStubs {
             updated = "updated 1"
         )
     }
-
 
 }

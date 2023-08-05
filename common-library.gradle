@@ -39,7 +39,5 @@ dependencies {
     testImplementation "${test.coroutines_test}"
     testImplementation "${test.mockk}"
 
-    androidTestImplementation "${test.hiltAndroidTest}"
-    kaptAndroidTest "${test.hiltKaptAndroidTest}"
 
 }

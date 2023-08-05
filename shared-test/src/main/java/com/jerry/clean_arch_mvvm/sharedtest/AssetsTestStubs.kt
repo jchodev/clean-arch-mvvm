@@ -1,11 +1,10 @@
-package com.jerry.clean_arch_mvvm.assetpage
+package com.jerry.clean_arch_mvvm.sharedtest
 
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.api.AssetData
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.api.AssetsResponseData
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 
 class AssetsTestStubs {
-
     companion object {
 
         const val testStr = ""

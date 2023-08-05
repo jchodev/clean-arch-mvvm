@@ -10,13 +10,11 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class MarketRepositoryImpl @Inject constructor(
-    private val marketServiceApi: MarketServiceApi,
-    @Named("Dispatchers.IO")
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val marketServiceApi: MarketServiceApi
 ): MarketRepository {
 
-    override suspend fun getMarket(baseId: String): MarketResponseData = withContext(ioDispatcher){
-        marketServiceApi.getMarkets(baseId = baseId)
+    override suspend fun getMarket(baseId: String): MarketResponseData {
+        return marketServiceApi.getMarkets(baseId = baseId)
     }
 
 }

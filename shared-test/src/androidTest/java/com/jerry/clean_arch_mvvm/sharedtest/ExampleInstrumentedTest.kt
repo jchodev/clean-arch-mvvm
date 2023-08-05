@@ -1,4 +1,4 @@
-package com.jerry.clean_arch_mvvm
+package com.jerry.clean_arch_mvvm.sharedtest
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.jerry.clean_arch_mvvm", appContext.packageName)
+        assertEquals("com.jerry.clean_arch_mvvm.sharedtest.test", appContext.packageName)
     }
 }

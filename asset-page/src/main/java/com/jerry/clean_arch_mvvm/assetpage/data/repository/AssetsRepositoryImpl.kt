@@ -10,12 +10,10 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class AssetsRepositoryImpl @Inject constructor(
-    private val assetServiceApi: AssetServiceApi,
-    @Named("Dispatchers.IO")
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val assetServiceApi: AssetServiceApi
 )  : AssetsRepository {
 
-    override suspend fun getAssets(): AssetsResponseData = withContext(ioDispatcher){
-        assetServiceApi.getAssets()
+    override suspend fun getAssets(): AssetsResponseData {
+        return assetServiceApi.getAssets()
     }
 }
