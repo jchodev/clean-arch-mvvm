@@ -100,4 +100,11 @@ dependencies {
 
     androidTestImplementation project(":shared-test")
 
+    androidTestImplementation "${test.espresso_contrib}"
+
+}
+
+// Allow references to generated code {https://developer.android.com/training/dependency-injection/hilt-android}
+kapt {
+    correctErrorTypes true
 }

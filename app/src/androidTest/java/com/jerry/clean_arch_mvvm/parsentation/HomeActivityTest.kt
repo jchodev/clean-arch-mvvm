@@ -1,22 +1,30 @@
 package com.jerry.clean_arch_mvvm.parsentation
 
-import android.R
+
 import android.os.SystemClock
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import com.google.gson.Gson
 import com.jerry.clean_arch_mvvm.HomeActivity
 import com.jerry.clean_arch_mvvm.sharedtest.*
+import com.jerry.clean_arch_mvvm.units.recyclerItemAtPosition
 
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.hamcrest.Matcher
 
 import org.junit.After
 import org.junit.Before
@@ -57,15 +65,118 @@ class HomeActivityTest {
         performUserSteps(
             checkData = {
                 //check http error message
-                Espresso.onView(ViewMatchers.withId(R.id.message)).check(
+                Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
                     ViewAssertions.matches(ViewMatchers.withSubstring(HTTP_ERROR))
                 )
             },
             fireAction = {
-                Espresso.onView(ViewMatchers.withId(R.id.button1)).perform(ViewActions.click())
+                Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
                 SystemClock.sleep(1000)
             },
             assignNextStepNetworkData = Pair("assets-customer-error", HttpURLConnection.HTTP_OK)
+        )
+
+        //check with assets server provided error
+        performUserSteps(
+            checkData = {
+                //check http error message
+                Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
+                    ViewAssertions.matches(ViewMatchers.withSubstring(AssetsTestStubs.errorMessage))
+                )
+            },
+            fireAction = {
+                Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
+                SystemClock.sleep(1000)
+            },
+            assignNextStepNetworkData = Pair("assets", HttpURLConnection.HTTP_OK)
+        )
+
+        //check with assets success
+        performUserSteps(
+            checkData = {
+                Espresso.onView(withId(com.jerry.clean_arch_mvvm.assetpage.R.id.recyclerViewAssets))
+                    .check(
+                        ViewAssertions.matches(
+                            recyclerItemAtPosition(
+                                0,
+                                ViewMatchers.hasDescendant(ViewMatchers.withText(
+                                    AssetsTestStubs.testAssetsResponseData.assetData!![0].symbol)
+                                )
+                            )
+                        )
+                    )
+            },
+            fireAction = {
+                //Check on 1 item
+                clickOnViewAtRow(1)
+
+                //goto market page and waiting loading
+                SystemClock.sleep(1000)
+            },
+            assignNextStepNetworkData = Pair("market-customer-error", HttpURLConnection.HTTP_NOT_FOUND)
+        )
+
+        //check with market http error
+        performUserSteps(
+            checkData = {
+                //check http error message
+                Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
+                    ViewAssertions.matches(ViewMatchers.withSubstring(HTTP_ERROR))
+                )
+            },
+            fireAction = {
+                Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
+                SystemClock.sleep(1000)
+            },
+            assignNextStepNetworkData = Pair("market-customer-error", HttpURLConnection.HTTP_OK)
+        )
+
+        //check with market customer error
+        performUserSteps(
+            checkData = {
+                //check http error message
+                Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
+                    ViewAssertions.matches(ViewMatchers.withSubstring(
+                        MarketTestStubs.errorMessage))
+                )
+            },
+            fireAction = {
+                Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
+                SystemClock.sleep(1000)
+            },
+            assignNextStepNetworkData = Pair("market-record-not-found", HttpURLConnection.HTTP_OK)
+        )
+
+        //check with market record not found error
+        performUserSteps(
+            checkData = {
+                //check http error message
+                Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
+                    ViewAssertions.matches(ViewMatchers.withSubstring(RECORD_NOT_FOUND))
+                )
+            },
+            fireAction = {
+                Espresso.onView(ViewMatchers.withId(android.R.id.button1)).perform(ViewActions.click())
+                SystemClock.sleep(1000)
+            },
+            assignNextStepNetworkData = Pair("market", HttpURLConnection.HTTP_OK)
+        )
+
+        //Check market success case
+        performUserSteps(
+            checkData = {
+                Espresso.onView(withId(com.jerry.clean_arch_mvvm.marketpage.R.id.textViewExchangeId)).check(
+                    ViewAssertions.matches(
+                        ViewMatchers.withText(
+                            "2"
+                        )
+                    )
+                )
+            },
+            fireAction = {
+                SystemClock.sleep(2000)
+            },
+            assignNextStepNetworkData = null
         )
     }
 
@@ -88,7 +199,18 @@ class HomeActivityTest {
     )
 
 
-
+    //    /*
+//        Step for this test:
+//        a. Asset page
+//           1. HTTP error
+//           2. server provided error
+//           3. success
+//        b. Market page
+//           1. HTTP error
+//           2. server provided error
+//           2. Record not found error
+//           3. success
+//     */
     private fun getJson(path: String) : String {
         return when (path) {
             "assets" -> {
@@ -137,198 +259,27 @@ class HomeActivityTest {
         fireAction();
     }
 
-//    /*
-//        Step for this test:
-//        a. Asset page
-//           1. HTTP error
-//           2. server provided error
-//           3. success
-//        b. Market page
-//           1. HTTP error
-//           2. server provided error
-//           2. Record not found error
-//           3. success
-//     */
-//    @Test
-//    fun test_all_case() {
-//
-//        //launch activity
-//        homeActivityResult.launchActivity(null)
-//
-//
-//        //assets - http error
-//        mockNetworkResponse("assets-customer-error", HttpURLConnection.HTTP_NOT_FOUND)
-//        SystemClock.sleep(1000)
-//
-//        //check with assets - http error
-//        performUserSteps(
-//            checkData = {
-//                //check http error message
-//                Espresso.onView(withId(android.R.id.message)).check(
-//                    ViewAssertions.matches(ViewMatchers.withSubstring(HTTP_ERROR))
-//                )
-//            },
-//            fireAction = {
-//                Espresso.onView(withId(android.R.id.button1)).perform(ViewActions.click())
-//                SystemClock.sleep(1000)
-//            },
-//            assignNextStepNetworkData = Pair("assets-customer-error", HttpURLConnection.HTTP_OK)
-//        )
-//
-//        //check with assets server provided error
-//        performUserSteps(
-//            checkData = {
-//                //check http error message
-//                Espresso.onView(withId(android.R.id.message)).check(
-//                    ViewAssertions.matches(ViewMatchers.withSubstring(TestStubs.errorMessage))
-//                )
-//            },
-//            fireAction = {
-//                Espresso.onView(withId(android.R.id.button1)).perform(ViewActions.click())
-//                SystemClock.sleep(1000)
-//            },
-//            assignNextStepNetworkData = Pair("assets", HttpURLConnection.HTTP_OK)
-//        )
-//
-//        //check with assets success
-//        performUserSteps(
-//            checkData = {
-//                Espresso.onView(withId(R.id.recyclerViewAssets))
-//                    .check(
-//                        ViewAssertions.matches(
-//                            recyclerItemAtPosition(
-//                                0,
-//                                ViewMatchers.hasDescendant(ViewMatchers.withText(
-//                                    TestStubs.testAssetsApiSuccessResponse.assetData!![0].symbol)
-//                                )
-//                            )
-//                        )
-//                    )
-//            },
-//            fireAction = {
-//                //Check on 1 item
-//                clickOnViewAtRow(1)
-//
-//                //goto market page and waiting loading
-//                SystemClock.sleep(1000)
-//            },
-//            assignNextStepNetworkData = Pair("market-customer-error", HttpURLConnection.HTTP_NOT_FOUND)
-//        )
-//
-//        //check with market http error
-//        performUserSteps(
-//            checkData = {
-//                //check http error message
-//                Espresso.onView(withId(android.R.id.message)).check(
-//                    ViewAssertions.matches(ViewMatchers.withSubstring(HTTP_ERROR))
-//                )
-//            },
-//            fireAction = {
-//                Espresso.onView(withId(android.R.id.button1)).perform(ViewActions.click())
-//                SystemClock.sleep(1000)
-//            },
-//            assignNextStepNetworkData = Pair("market-customer-error", HttpURLConnection.HTTP_OK)
-//        )
-//
-//        //check with market customer error
-//        performUserSteps(
-//            checkData = {
-//                //check http error message
-//                Espresso.onView(withId(android.R.id.message)).check(
-//                    ViewAssertions.matches(ViewMatchers.withSubstring(TestStubs.errorMessage))
-//                )
-//            },
-//            fireAction = {
-//                Espresso.onView(withId(android.R.id.button1)).perform(ViewActions.click())
-//                SystemClock.sleep(1000)
-//            },
-//            assignNextStepNetworkData = Pair("market-record-not-found", HttpURLConnection.HTTP_OK)
-//        )
-//
-//        //check with market record not found error
-//        performUserSteps(
-//            checkData = {
-//                //check http error message
-//                Espresso.onView(withId(android.R.id.message)).check(
-//                    ViewAssertions.matches(ViewMatchers.withSubstring(RECORD_NOT_FOUND))
-//                )
-//            },
-//            fireAction = {
-//                Espresso.onView(withId(android.R.id.button1)).perform(ViewActions.click())
-//                SystemClock.sleep(1000)
-//            },
-//            assignNextStepNetworkData = Pair("market", HttpURLConnection.HTTP_OK)
-//        )
-//
-//        //Check market success case
-//        performUserSteps(
-//            checkData = {
-//                Espresso.onView(withId(R.id.textViewExchangeId)).check(
-//                    ViewAssertions.matches(
-//                        ViewMatchers.withText(
-//                            "2"
-//                        )
-//                    )
-//                )
-//            },
-//            fireAction = {
-//                SystemClock.sleep(2000)
-//            },
-//            assignNextStepNetworkData = null
-//        )
-//    }
-//
-//
-//    private fun getJson(path: String) : String {
-//        return when (path) {
-//            "assets" -> {
-//                Gson().toJson(TestStubs.testAssetsApiSuccessResponse)
-//            }
-//            "assets-customer-error" -> {
-//                Gson().toJson(TestStubs.testAssetsApiSuccessResponse.copy(
-//                    error = TestStubs.errorMessage
-//                ))
-//            }
-//            "market" -> {
-//                Gson().toJson(TestStubs.testMarketsApiSuccessResponse)
-//            }
-//            "market-customer-error" -> {
-//                Gson().toJson(TestStubs.testMarketsApiSuccessResponse.copy(
-//                    error = TestStubs.errorMessage
-//                ))
-//            }
-//            "market-record-not-found" -> {
-//                Gson().toJson(TestStubs.testMarketsApiSuccessResponse.copy(
-//                    marketData = emptyList()
-//                ))
-//            }
-//            else -> {
-//                ""
-//            }
-//        }
-//
-//    }
-//
-//    private fun clickOnViewAtRow(position: Int) {
-//        Espresso.onView(ViewMatchers.withId(R.id.recyclerViewAssets)).perform(
-//            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>
-//            (position, ClickOnButtonView()))
-//    }
-//
-//    private class ClickOnButtonView : ViewAction {
-//        internal var click = ViewActions.click()
-//
-//        override fun getConstraints(): Matcher<View> {
-//            return click.constraints
-//        }
-//
-//        override fun getDescription(): String {
-//            return " click on custom button view"
-//        }
-//
-//        override fun perform(uiController: UiController, view: View) {
-//            //asset_item.xml card
-//            click.perform(uiController, view.findViewById(R.id.cardViewAsset))
-//        }
-//    }
+
+    private fun clickOnViewAtRow(position: Int) {
+        Espresso.onView(ViewMatchers.withId(com.jerry.clean_arch_mvvm.assetpage.R.id.recyclerViewAssets)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>
+                (position, ClickOnButtonView()))
+    }
+
+    private class ClickOnButtonView : ViewAction {
+        internal var click = ViewActions.click()
+
+        override fun getConstraints(): Matcher<View> {
+            return click.constraints
+        }
+
+        override fun getDescription(): String {
+            return " click on custom button view"
+        }
+
+        override fun perform(uiController: UiController, view: View) {
+            //asset_item.xml card
+            click.perform(uiController, view.findViewById((com.jerry.clean_arch_mvvm.assetpage.R.id.cardViewAsset)))
+        }
+    }
 }
