@@ -51,6 +51,18 @@ class HomeActivityTest {
     @JvmField
     var homeActivityResult = ActivityTestRule(HomeActivity::class.java, true, false)
 
+    /*
+        Step for this test:
+        a. Asset page
+           1. HTTP error
+           2. server provided error
+           3. success
+        b. Market page
+           1. HTTP error
+           2. server provided error
+           2. Record not found error
+           3. success
+     */
     @Test
     fun test_all_case() {
 
@@ -135,13 +147,9 @@ class HomeActivityTest {
         performUserSteps(
             checkData = {
                 //check http error message
-//                Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
-//                    ViewAssertions.matches(ViewMatchers.withSubstring(
-//                        MarketTestStubs.errorMessage))
-//                )
-                //TODO check why not work
                 Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
-                    ViewAssertions.matches(ViewMatchers.withSubstring(HTTP_ERROR))
+                    ViewAssertions.matches(ViewMatchers.withSubstring(
+                        MarketTestStubs.errorMessage))
                 )
             },
             fireAction = {
@@ -155,12 +163,8 @@ class HomeActivityTest {
         performUserSteps(
             checkData = {
                 //check http error message
-//                Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
-//                    ViewAssertions.matches(ViewMatchers.withSubstring(RECORD_NOT_FOUND))
-//                )
-                //TODO check why not work
                 Espresso.onView(ViewMatchers.withId(android.R.id.message)).check(
-                    ViewAssertions.matches(ViewMatchers.withSubstring(HTTP_ERROR))
+                    ViewAssertions.matches(ViewMatchers.withSubstring(RECORD_NOT_FOUND))
                 )
             },
             fireAction = {
@@ -200,27 +204,16 @@ class HomeActivityTest {
     }
 
 
-    private fun mockNetworkResponse(path: String, responseCode: Int) = mockWebServer.enqueue(
-        MockResponse()
-            .setResponseCode(responseCode)
-            .setBody(getJson(path))
-    )
+    private fun mockNetworkResponse(path: String, responseCode: Int) {
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(responseCode)
+                .setBody(getJson(path))
+        )
+    }
 
 
-    //    /*
-//        Step for this test:
-//        a. Asset page
-//           1. HTTP error
-//           2. server provided error
-//           3. success
-//        b. Market page
-//           1. HTTP error
-//           2. server provided error
-//           2. Record not found error
-//           3. success
-//     */
     private fun getJson(path: String) : String {
-        System.out.println("getJson::path::${path}")
         return when (path) {
             "assets" -> {
                 Gson().toJson( AssetsTestStubs.testAssetsResponseData)

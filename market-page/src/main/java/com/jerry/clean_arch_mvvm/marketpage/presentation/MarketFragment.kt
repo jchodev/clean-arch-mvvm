@@ -13,6 +13,7 @@ import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.marketpage.R
 import com.jerry.clean_arch_mvvm.marketpage.databinding.FragmentMarketBinding
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
+import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
 import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.MarketViewModel
 import kotlinx.coroutines.launch
 
@@ -54,12 +55,13 @@ class MarketFragment : BaseFragment(R.layout.fragment_market) {
                         }
                         is UiState.Failure -> {
                             showLoading(false)
-                            displayRetryDialog(getData())
+                            displayRetryDialog(uiState.errorAny)
                         }
                         is UiState.CustomerError -> {
                             showLoading(false)
-                            displayRetryDialog(getData())
+                            displayRetryDialog(uiState.errorMessage)
                         }
+
                         else -> {
 
                         }
@@ -87,5 +89,19 @@ class MarketFragment : BaseFragment(R.layout.fragment_market) {
         baseId?.let{
             viewModel.getMarketsByBaseId(it)
         }
+    }
+
+    override fun getErrorMessage(mess: Any) : String {
+        var message = ""
+        message = if (mess is String)
+            mess
+        else {
+            if (mess is MarketNotFoundException) {
+                getString(com.jerry.clean_arch_mvvm.base.R.string.record_not_found_error)
+            } else {
+                getString(com.jerry.clean_arch_mvvm.base.R.string.some_error)
+            }
+        }
+        return message
     }
 }
