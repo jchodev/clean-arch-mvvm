@@ -61,8 +61,13 @@ project
     │   │    
 ```
 
+
+### UI test demo
+https://github.com/jchodev/clean-arch-mvvm/assets/100594737/4915be8c-3501-4558-812f-13c09a47f58a
+
+
+
 ## TODO
-1. add UI test (Preparing ... still cannot run)
-2. Add jacocoReport
-3. Add new pages with jetpack compose
+1. Add jacocoReport
+2. Add new pages with jetpack compose
 4. ...
