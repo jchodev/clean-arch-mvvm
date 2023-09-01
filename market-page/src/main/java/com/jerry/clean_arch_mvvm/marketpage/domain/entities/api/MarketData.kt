@@ -1,4 +1,4 @@
-package com.yoti.android.cryptocurrencychallenge.domain.model.market
+package com.jerry.clean_arch_mvvm.marketpage.domain.entities.api
 
 
 import com.google.gson.annotations.SerializedName

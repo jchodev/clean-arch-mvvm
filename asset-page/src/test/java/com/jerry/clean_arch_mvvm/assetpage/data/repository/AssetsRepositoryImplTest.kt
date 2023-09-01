@@ -31,8 +31,7 @@ class AssetsRepositoryImplTest {
         val assetsSuccessResponse = AssetsTestStubs.testAssetsResponseData
         runTest {
             assetsRepositoryImpl = AssetsRepositoryImpl(
-                assetServiceApi =  assetServiceApi,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+                assetServiceApi =  assetServiceApi
             )
             //assign
             coEvery { assetServiceApi.getAssets() } returns assetsSuccessResponse
@@ -56,8 +55,7 @@ class AssetsRepositoryImplTest {
         runTest {
 
             assetsRepositoryImpl = AssetsRepositoryImpl(
-                assetServiceApi =  assetServiceApi,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+                assetServiceApi =  assetServiceApi
             )
 
             //assign
@@ -89,8 +87,7 @@ class AssetsRepositoryImplTest {
         runTest {
 
             assetsRepositoryImpl = AssetsRepositoryImpl(
-                assetServiceApi =  assetServiceApi,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+                assetServiceApi =  assetServiceApi
             )
 
             //assign

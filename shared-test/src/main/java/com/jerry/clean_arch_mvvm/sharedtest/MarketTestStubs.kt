@@ -1,8 +1,8 @@
 package com.jerry.clean_arch_mvvm.sharedtest
 
+import com.jerry.clean_arch_mvvm.marketpage.domain.entities.api.MarketData
+import com.jerry.clean_arch_mvvm.marketpage.domain.entities.api.MarketResponseData
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
-import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketData
-import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketResponseData
 
 class MarketTestStubs {
 

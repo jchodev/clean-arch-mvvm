@@ -5,7 +5,7 @@ import com.jerry.clean_arch_mvvm.marketpage.data.mapper.MarketMapper
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.domain.repository.MarketRepository
 import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
-import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketData
+
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

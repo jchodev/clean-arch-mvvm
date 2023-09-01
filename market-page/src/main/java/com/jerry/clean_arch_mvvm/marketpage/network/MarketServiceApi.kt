@@ -1,6 +1,6 @@
 package com.jerry.clean_arch_mvvm.marketpage.network
 
-import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketResponseData
+import com.jerry.clean_arch_mvvm.marketpage.domain.entities.api.MarketResponseData
 import retrofit2.http.GET
 import retrofit2.http.Query
 

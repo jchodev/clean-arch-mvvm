@@ -1,4 +1,4 @@
-package com.jerry.clean_arch_mvvm.parsentation
+package com.jerry.clean_arch_mvvm.presentation
 
 
 import android.os.SystemClock

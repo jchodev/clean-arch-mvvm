@@ -1,6 +1,6 @@
 package com.jerry.clean_arch_mvvm.marketpage.domain.repository
 
-import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketResponseData
+import com.jerry.clean_arch_mvvm.marketpage.domain.entities.api.MarketResponseData
 
 interface MarketRepository {
     suspend fun getMarket(baseId: String): MarketResponseData

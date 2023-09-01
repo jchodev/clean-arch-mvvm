@@ -1,8 +1,8 @@
 package com.jerry.clean_arch_mvvm.marketpage.data.mapper
 
 import com.jerry.clean_arch_mvvm.base.utils.DisplayUtil
+import com.jerry.clean_arch_mvvm.marketpage.domain.entities.api.MarketData
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
-import com.yoti.android.cryptocurrencychallenge.domain.model.market.MarketData
 import javax.inject.Inject
 
 class MarketMapper @Inject constructor(
