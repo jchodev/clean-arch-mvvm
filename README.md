@@ -27,7 +27,7 @@ Apply with jUnit5
 
 ### UI test
 
---TODO
+Espresso
 
 
 ### Library
@@ -37,6 +37,7 @@ Apply with jUnit5
 | navigator | Switch two fragment  | ----- |
 | databing | binding layout xml to class level | Will be implement jetpack compose later |
 | hilt | Dependency injection `di`  | ------ |
+| jacoco | Test report| ----|
 
 
 ### Project Structure
@@ -65,9 +66,12 @@ project
 ### UI test demo
 https://github.com/jchodev/clean-arch-mvvm/assets/100594737/4915be8c-3501-4558-812f-13c09a47f58a
 
+### jacocoReport command
+./gradlew :asset-page:jacocoReport &  ./gradlew :market-page:jacocoReport  
+![market-page](https://github.com/jchodev/clean-arch-mvvm/assets/100594737/51a8ca98-39f7-4a46-bc82-70bf070c0091)
+
 
 
 ## TODO
-1. Add jacocoReport
-2. Add new pages with jetpack compose
-4. ...
+1. Add new activity / pages with jetpack compose
+2. ...
