@@ -1,6 +1,6 @@
 # clean-arch-mvvm
 
-**This is self study and playing roject ONLY.**
+**This project is self study and playing ONLY.**
 
 
 ## In this project, was implementation with
