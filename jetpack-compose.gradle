@@ -1,0 +1,45 @@
+android {
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.5"
+    }
+}
+
+dependencies {
+    def composeBom = platform("${jetpack.jetpack_compose_bom}")
+    implementation composeBom
+    implementation 'androidx.compose.material3:material3'
+
+    //For BottomNavigation bar
+    implementation 'androidx.compose.material:material'
+
+    // Jetpack Compose
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    //debugNotMinifiedImplementation "androidx.compose.ui:ui-tooling"
+    implementation "androidx.compose.runtime:runtime"
+
+    implementation 'androidx.activity:activity-compose'
+
+    //Compose Constraintlayout
+    implementation "${jetpack.jetpack_compose_constraintlayout}"
+
+    // Navigation Compose
+    implementation "${jetpack.jetpack_compose_navigation}"
+
+    //live data using at compose
+    implementation "${jetpack.jetpack_compose_livedata_runtime}"
+
+//    //url image compose
+//    implementation "io.coil-kt:coil-compose:2.2.2"
+//
+//    //system ui controller
+//    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+//
+//    //webview
+//    implementation "com.google.accompanist:accompanist-webview:0.31.3-beta"
+}

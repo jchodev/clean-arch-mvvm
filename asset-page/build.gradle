@@ -6,6 +6,7 @@ plugins {
 
 apply from: "$project.rootDir/common-library.gradle"
 apply from: "$project.rootDir/jacoco.gradle"
+apply from: "$project.rootDir/jetpack-compose.gradle"
 
 android {
     namespace 'com.jerry.clean_arch_mvvm.assetpage'
