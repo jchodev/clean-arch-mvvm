@@ -14,6 +14,8 @@
 | Domain Layer | Entities, usecase, Repository Interface |
 | Data Layer | datamapping, Repository Impl.  |
 
+### what is entities
+Entities are business object of and application or a system
 
 ### Modularization patterns
 

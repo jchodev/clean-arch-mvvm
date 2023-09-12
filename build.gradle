@@ -86,7 +86,7 @@ buildscript {
                 jetpack_compose_bom : "androidx.compose:compose-bom:${versions.jetpack_compose_bom}",
                 jetpack_compose_constraintlayout : "androidx.constraintlayout:constraintlayout-compose:${versions.jetpack_compose_constraintlayout}",
                 jetpack_compose_navigation : "androidx.navigation:navigation-compose:${versions.jetpack_compose_navigation}",
-                jetpack_compose_livedata_runtime : "androidx.navigation:navigation-compose:${versions.jetpack_compose_livedata_runtime}"
+                jetpack_compose_livedata_runtime : "androidx.compose.runtime:runtime-livedata:${versions.jetpack_compose_livedata_runtime}"
 
         ]
     }

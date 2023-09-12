@@ -1,5 +1,7 @@
 package com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jerry.clean_arch_mvvm.assetpage.data.mapper.AssetMapper
@@ -29,6 +31,10 @@ class AssetsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<UiState<List<AssetUiItem>>>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
+
+    private val _listLiveData = MutableLiveData(emptyList<AssetUiItem>())
+    val listLiveData: LiveData<List<AssetUiItem>>
+        get() = _listLiveData
 
     fun getAssetList(){
         viewModelScope.launch(dispatcher) {

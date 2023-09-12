@@ -6,6 +6,7 @@ plugins {
 }
 
 apply from:"../common-library.gradle"
+apply from:"../jetpack-compose.gradle"
 
 android {
     namespace 'com.jerry.clean_arch_mvvm'
@@ -62,6 +63,7 @@ android {
 
 dependencies {
     implementation project(":base-module")
+    implementation project(":jetpack-design-lib")
     implementation project(":asset-page")
     implementation project(":market-page")
 

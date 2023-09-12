@@ -16,11 +16,17 @@ onBackground - Color used for text and icons displayed on top of the background 
 private val darkColorScheme = darkColorScheme(
     background = Black,
     onBackground = White, //usually used at text
+
+    primary = Black,
+    onPrimary = White, //usually used at text
 )
 
 private val lightColorScheme = darkColorScheme(
     background = White,
     onBackground = Black, //usually used at text
+
+    primary = White,
+    onPrimary = Black, //usually used at text
 )
 
 @Composable

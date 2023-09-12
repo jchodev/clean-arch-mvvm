@@ -7,4 +7,9 @@
         <!-- ... -->
         <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
     </style>
+
+    <style name="JetpackActivityTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- ... -->
+        <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+    </style>
 </resources>

@@ -17,10 +17,10 @@
         tools:targetApi="31"
         android:networkSecurityConfig="@xml/network_security_config">
 <!--        <activity-->
-<!--            android:name=".MainActivity"-->
+<!--            android:name=".HomeActivity"-->
 <!--            android:exported="true"-->
 <!--            android:label="@string/app_name"-->
-<!--            android:theme="@style/Theme.Cleanarchmvvm">-->
+<!--            android:theme="@style/HomeActivityTheme">-->
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -29,10 +29,11 @@
 <!--        </activity>-->
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".presentation.JetpackMainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/HomeActivityTheme">
+            android:theme="@style/JetpackActivityTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
