@@ -1,6 +1,7 @@
 package com.jerry.clean_arch_mvvm.assetpage.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,11 +23,19 @@ import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 fun AssetItemComponent(
     assetsName: String,
     assetCode: String,
-    assetPrice: String
+    assetPrice: String,
+    assetId: String?,
+    onAssetItemClick: (String) -> Unit
 ) {
-    BoxWithConstraints(modifier = Modifier.background(
-        color = MaterialTheme.colorScheme.primary
-    )) {
+    BoxWithConstraints(
+        modifier = Modifier.background(
+        color = MaterialTheme.colorScheme.primary)
+            .clickable {
+                assetId?.let {
+                    onAssetItemClick.invoke(it)
+                }
+            }
+    ) {
         val maxWidth = this.maxWidth
 
         Column(modifier =
@@ -67,12 +76,14 @@ fun AssetItemComponent(
 
 @Preview(showBackground = true)
 @Composable
-fun AssetItemComponentPreivew() {
+fun AssetItemComponentPreview() {
     MyAppTheme {
         AssetItemComponent(
             assetsName = "this is assetsName",
             assetCode = "this is assetCode",
-            assetPrice = "this is assetPrice"
+            assetPrice = "this is assetPrice",
+            assetId = "",
+            onAssetItemClick = {}
         )
     }
 }

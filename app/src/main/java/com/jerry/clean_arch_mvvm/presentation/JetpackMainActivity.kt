@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,13 +23,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.presentation.components.AssetItemComponent
 import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.AssetsViewModel
@@ -53,8 +57,16 @@ class JetpackMainActivity: BaseActivity() {
     private lateinit var navController: NavHostController
 
     //onClick event ...
-    val onBackArrowClick: () -> Unit = {
+    private val onBackArrowClick: () -> Unit = {
         onBackPressedDispatcher.onBackPressed()
+    }
+
+    private val onAssetItemClick: (String) -> Unit = {
+        navController.navigate(
+            Route.MARKET.toString().plus(
+                "/?baseId=${it}"
+            )
+        )
     }
 
     //views ....
@@ -81,6 +93,13 @@ class JetpackMainActivity: BaseActivity() {
                     topBar = topBarView
                 ) {
                     navController = rememberNavController()
+
+                    navController.addOnDestinationChangedListener { _, navDestination, _ ->
+                        //destinationChanged.value = navDestination.route
+                        viewModel.setShowBackArrowLiveData(
+                            value = navDestination.route?.contains(Route.MARKET.toString()) ?: false
+                        )
+                    }
 
                     NavHost(
                         modifier = Modifier.padding(it),
@@ -112,22 +131,22 @@ class JetpackMainActivity: BaseActivity() {
                                                     AssetItemComponent(
                                                         assetsName = item.name!!,
                                                         assetCode = item.symbol!!,
-                                                        assetPrice = item.price!!
+                                                        assetPrice = item.price!!,
+                                                        assetId = item.id,
+                                                        onAssetItemClick = onAssetItemClick
                                                     )
                                                 }
                                             }
                                         }
 
                                     }
-
-
                                 }
                                 is UiState.Failure -> {
-                                    showLoading(false)
+                                    //showLoading(false)
                                     //displayRetryDialog(uiState.errorAny)
                                 }
                                 is UiState.CustomerError -> {
-                                    showLoading(false)
+                                    //showLoading(false)
                                     //displayRetryDialog(uiState.errorMessage)
                                 }
                                 else -> {
@@ -136,6 +155,21 @@ class JetpackMainActivity: BaseActivity() {
                             }
 
 
+                        }
+
+                        composable(
+                            //%s/?%s=%s
+                            route = Route.MARKET.toString().plus(
+                                "/?baseId={baseId}"
+                            ),
+                            arguments = listOf(
+                                navArgument("baseId") {
+                                    type = NavType.StringType
+                                }
+                            )
+                        ) { backStackEntry ->
+                            val baseId = backStackEntry.arguments?.getString("baseId") ?: ""
+                            Text(text = "This is MARKET page with baseId: $baseId", textAlign = TextAlign.Center)
                         }
                     }
 
@@ -197,7 +231,7 @@ class JetpackMainActivity: BaseActivity() {
         override fun handleOnBackPressed() {
             println("back back click")
 
-            return
+            finish()
         }
     }
 

@@ -2,6 +2,8 @@ package com.jerry.clean_arch_mvvm.jetpack_design_lib.topbar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,7 +32,11 @@ fun MyTopBar(
             MyTitleText(text = title)
         },
         navigationIcon = {
-            AnimatedVisibility(visible = visibleState.value ?: false) {
+            AnimatedVisibility(
+                visible = visibleState.value ?: false,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
                 IconButton(
                     onClick = {
                         onClick()

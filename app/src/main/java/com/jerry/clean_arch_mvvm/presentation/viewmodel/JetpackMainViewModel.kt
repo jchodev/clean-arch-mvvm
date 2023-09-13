@@ -11,8 +11,11 @@ import javax.inject.Inject
 class JetpackMainViewModel @Inject constructor(
 ): ViewModel() {
 
-    private val _showBackArrowLiveData = MutableLiveData<Boolean>(true)
+    private val _showBackArrowLiveData = MutableLiveData<Boolean>()
     val showBackArrowLiveData: LiveData<Boolean>
         get() = _showBackArrowLiveData
 
+    fun setShowBackArrowLiveData(value: Boolean){
+        _showBackArrowLiveData.value = value
+    }
 }
