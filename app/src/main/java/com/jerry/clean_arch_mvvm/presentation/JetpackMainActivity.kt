@@ -2,11 +2,13 @@ package com.jerry.clean_arch_mvvm.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+
+
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -52,7 +54,7 @@ class JetpackMainActivity: BaseActivity() {
 
     //onClick event ...
     val onBackArrowClick: () -> Unit = {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
     }
 
     //views ....
@@ -71,6 +73,8 @@ class JetpackMainActivity: BaseActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        this.onBackPressedDispatcher.addCallback (this, callback)
         setContent {
             MyAppTheme {
                 Scaffold(
@@ -173,19 +177,29 @@ class JetpackMainActivity: BaseActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        //
-//        val currentRoute = navController.currentBackStackEntry?.destination?.route
-//
-//        if (currentRoute == FeaturesConstants.FeaturesRoute.ALL_LATEST.toString()) {
-//            onAllLatestBackButtonClick()
-//        } else if (currentRoute?.contains(FeaturesConstants.FeaturesRoute.DETAIL.toString()) == true) {
-//            onDetailBackClick()
-//        } else if (currentRoute == FeaturesConstants.FeaturesRoute.HOMEPAGE.toString()) {
-//            onHomepageBackClick()
-//        } else {
-//            super.onBackPressed()
-//        }
-        super.onBackPressed()
+//    override fun onBackPressed() {
+//        //
+////        val currentRoute = navController.currentBackStackEntry?.destination?.route
+////
+////        if (currentRoute == FeaturesConstants.FeaturesRoute.ALL_LATEST.toString()) {
+////            onAllLatestBackButtonClick()
+////        } else if (currentRoute?.contains(FeaturesConstants.FeaturesRoute.DETAIL.toString()) == true) {
+////            onDetailBackClick()
+////        } else if (currentRoute == FeaturesConstants.FeaturesRoute.HOMEPAGE.toString()) {
+////            onHomepageBackClick()
+////        } else {
+////            super.onBackPressed()
+////        }
+//        super.onBackPressed()
+//    }
+
+    private val callback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            println("back back click")
+
+            return
+        }
     }
+
+
 }
