@@ -18,4 +18,12 @@ class JetpackMainViewModel @Inject constructor(
     fun setShowBackArrowLiveData(value: Boolean){
         _showBackArrowLiveData.value = value
     }
+
+    private val _showErrorDialogLiveData = MutableLiveData<Boolean>()
+    val showErrorDialogLiveData: LiveData<Boolean>
+        get() = _showErrorDialogLiveData
+
+    fun setShowErrorDialogLiveData(value: Boolean){
+        _showErrorDialogLiveData.value = value
+    }
 }

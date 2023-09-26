@@ -14,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.jerry.clean_arch_mvvm.jetpack_design_lib.text.MyDefaultText
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.text.MyTitleText
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 

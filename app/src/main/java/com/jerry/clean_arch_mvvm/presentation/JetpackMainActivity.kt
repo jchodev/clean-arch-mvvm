@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,19 +19,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
@@ -39,8 +40,12 @@ import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.AssetsViewMode
 import com.jerry.clean_arch_mvvm.base.presentation.BaseActivity
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.common.MyLoading
+import com.jerry.clean_arch_mvvm.jetpack_design_lib.dialog.MyDialog
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.topbar.MyTopBar
+import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
+import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
+import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.MarketViewModel
 import com.jerry.clean_arch_mvvm.presentation.viewmodel.JetpackMainViewModel
 import kotlinx.coroutines.launch
 
@@ -53,6 +58,7 @@ class JetpackMainActivity: BaseActivity() {
 
     private val viewModel by viewModels<JetpackMainViewModel>()
     private val assetsViewModel by viewModels<AssetsViewModel>()
+    private val marketViewModel by viewModels<MarketViewModel>()
 
     private lateinit var navController: NavHostController
 
@@ -67,9 +73,12 @@ class JetpackMainActivity: BaseActivity() {
                 "/?baseId=${it}"
             )
         )
+
+       // marketViewModel.getMarketsByBaseId(it)
     }
 
     //views ....
+
     private val topBarView = @Composable {
         MyTopBar(title = "Assets List",
             onClick = onBackArrowClick,
@@ -142,12 +151,20 @@ class JetpackMainActivity: BaseActivity() {
                                     }
                                 }
                                 is UiState.Failure -> {
-                                    //showLoading(false)
-                                    //displayRetryDialog(uiState.errorAny)
+                                    RetryDialog(
+                                        mess = (uiState as UiState.Failure).errorAny,
+                                        doRetry = {
+                                            assetsViewModel.getAssetList()
+                                        }
+                                    )
                                 }
                                 is UiState.CustomerError -> {
-                                    //showLoading(false)
-                                    //displayRetryDialog(uiState.errorMessage)
+                                    RetryDialog(
+                                        mess = (uiState as UiState.CustomerError).errorMessage,
+                                        doRetry = {
+                                            assetsViewModel.getAssetList()
+                                        }
+                                    )
                                 }
                                 else -> {
 
@@ -169,47 +186,71 @@ class JetpackMainActivity: BaseActivity() {
                             )
                         ) { backStackEntry ->
                             val baseId = backStackEntry.arguments?.getString("baseId") ?: ""
-                            Text(text = "This is MARKET page with baseId: $baseId", textAlign = TextAlign.Center)
+
+                            //make it call one time only
+                            /*
+                            LaunchedEffect: is executed once when entered inside the composition. And it is canceled when leaving the composition.
+                            LaunchedEffect: cancels/re-launch when Keys state changes
+                            LaunchedEffect: must have at least one key
+                            LaunchedEffect: Scope’s Dispatcher is Main.
+                            */
+
+                            LaunchedEffect(baseId) {
+                                println("LaunchedEffect::baseId: ${baseId}")
+                                marketViewModel.getMarketsByBaseId(baseId = baseId)
+                            }
+
+
+                            val uiState by marketViewModel.uiState.collectAsState()
+
+                            when (uiState) {
+                                is UiState.Loading -> {
+                                    MyLoading()
+                                }
+                                is UiState.Success -> {
+                                    val market = (uiState as UiState.Success<MarketUiItem>).data
+                                    Column(
+                                        modifier = Modifier.fillMaxSize()
+                                    ) {
+                                        Text(text = "This is MARKET page with price: ${market.price}", textAlign = TextAlign.Center)
+                                        Text(text = "This is MARKET page with exchangeId: ${market.exchangeId}", textAlign = TextAlign.Center)
+                                    }
+
+                                }
+                                is UiState.Failure -> {
+                                    RetryDialog(
+                                        mess = (uiState as UiState.Failure).errorAny,
+                                        doRetry = {
+                                            marketViewModel.getMarketsByBaseId(baseId)
+                                        }
+                                    )
+                                }
+                                is UiState.CustomerError -> {
+                                    RetryDialog(
+                                        mess = (uiState as UiState.CustomerError).errorMessage,
+                                        doRetry = {
+                                            marketViewModel.getMarketsByBaseId(baseId)
+                                        }
+                                    )
+                                }
+                                else -> {
+
+                                }
+                            }
                         }
+
                     }
 
 
                 }
             }
         }
+
 
         assetsViewModel.getAssetList()
     }
 
-    private fun observeViewModelEvents(){
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
 
-                assetsViewModel.uiState.collect { uiState->
-                    when (uiState) {
-                        is UiState.Loading -> {
-                            showLoading(true)
-                        }
-                        is UiState.Success -> {
-                            showLoading(false)
-                            //assetsAdapter.setList(uiState.data)
-                        }
-                        is UiState.Failure -> {
-                            showLoading(false)
-                            //displayRetryDialog(uiState.errorAny)
-                        }
-                        is UiState.CustomerError -> {
-                            showLoading(false)
-                            //displayRetryDialog(uiState.errorMessage)
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-            }
-        }
-    }
 
 //    override fun onBackPressed() {
 //        //
@@ -235,5 +276,31 @@ class JetpackMainActivity: BaseActivity() {
         }
     }
 
+    @Composable
+    private fun RetryDialog(mess: Any, doRetry :() -> Unit ){
+        val message = getErrorMessage(mess)
+        MyDialog(
+            title = "",
+            message = message,
+            onDismissRequest = {
+                navController.popBackStack()
+            },
+            onOKRequest = doRetry,
+            okStr = getString(com.jerry.clean_arch_mvvm.base.R.string.retry)
+        )
+    }
 
+    private fun getErrorMessage(mess: Any) : String {
+        var message = ""
+        message = if (mess is String)
+            mess
+        else {
+            if (mess is MarketNotFoundException) {
+                getString(com.jerry.clean_arch_mvvm.base.R.string.record_not_found_error)
+            } else {
+                getString(com.jerry.clean_arch_mvvm.base.R.string.some_error)
+            }
+        }
+        return message
+    }
 }
