@@ -5,7 +5,7 @@
 
 ## In this project, was implementation with
 
-### Clean Architecture MVI 
+### Clean Architecture with MVI and/or MVVM ( base on activity level) 
 
 
 | Layer | Description |
