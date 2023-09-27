@@ -23,15 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
+import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.Purple80
+import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.PurpleGrey40
 
-
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
 
 @Composable
 fun MyDialog(

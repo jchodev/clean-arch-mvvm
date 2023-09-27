@@ -36,6 +36,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.presentation.components.AssetItemComponent
+import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
 import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.AssetsViewModel
 import com.jerry.clean_arch_mvvm.base.presentation.BaseActivity
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
@@ -154,7 +155,7 @@ class JetpackMainActivity: BaseActivity() {
                                     RetryDialog(
                                         mess = (uiState as UiState.Failure).errorAny,
                                         doRetry = {
-                                            assetsViewModel.getAssetList()
+                                            getAssetList()
                                         }
                                     )
                                 }
@@ -162,7 +163,7 @@ class JetpackMainActivity: BaseActivity() {
                                     RetryDialog(
                                         mess = (uiState as UiState.CustomerError).errorMessage,
                                         doRetry = {
-                                            assetsViewModel.getAssetList()
+                                            getAssetList()
                                         }
                                     )
                                 }
@@ -247,10 +248,15 @@ class JetpackMainActivity: BaseActivity() {
         }
 
 
-        assetsViewModel.getAssetList()
+        assetsViewModel.initIntent()
+
+        getAssetList()
     }
 
-
+    private fun getAssetList(){
+        assetsViewModel.sendIntent(AssetsIntent.Initial)
+        //assetsViewModel.getAssetList()
+    }
 
 //    override fun onBackPressed() {
 //        //

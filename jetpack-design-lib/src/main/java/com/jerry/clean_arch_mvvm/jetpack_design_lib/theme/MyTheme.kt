@@ -6,6 +6,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.Black
+import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.Pink80
+import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.Purple40
+import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.Purple80
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.White
 
 //Ref: https://m2.material.io/design/material-theming/implementing-your-theme.html#color
@@ -19,6 +22,9 @@ private val darkColorScheme = darkColorScheme(
 
     primary = Black,
     onPrimary = White, //usually used at text
+
+    secondary = Pink80,
+    onSecondary = Purple80,
 )
 
 private val lightColorScheme = darkColorScheme(
@@ -27,6 +33,9 @@ private val lightColorScheme = darkColorScheme(
 
     primary = White,
     onPrimary = Black, //usually used at text
+
+    secondary = Purple80,
+    onSecondary = Pink80,
 )
 
 @Composable

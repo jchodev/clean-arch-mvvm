@@ -49,9 +49,9 @@ fun MyTopBar(
                 }
             }
         },
-        //navigationIcon,
+
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.secondary
         )
     )
 }
