@@ -1,4 +1,4 @@
-# clean-arch-mvvm
+# clean-arch-mvvm / clean-arch-mvi  
 
 **This project is self study and playing ONLY.**
 
@@ -10,7 +10,7 @@
 
 | Layer | Description |
 |----- | ------ |
-| Presentation Layer | view, view model (MVI)  |
+| Presentation Layer | view, view model (MVVM & MVI)  |
 | Domain Layer | Entities, usecase, Repository Interface |
 | Data Layer | datamapping, Repository Impl.  |
 
