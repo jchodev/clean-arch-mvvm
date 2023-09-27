@@ -5,12 +5,12 @@
 
 ## In this project, was implementation with
 
-### Clean Architecture with MVVM
+### Clean Architecture MVI 
 
 
 | Layer | Description |
 |----- | ------ |
-| Presentation Layer | view, view model (MVVM)  |
+| Presentation Layer | view, view model (MVI)  |
 | Domain Layer | Entities, usecase, Repository Interface |
 | Data Layer | datamapping, Repository Impl.  |
 
@@ -24,7 +24,7 @@ This concerns modularization at the page level (List & Detail)
 
 ### Unit test
 
-Apply with jUnit5
+Apply with jUnit5, mockk
 
 
 ### UI test
@@ -37,7 +37,7 @@ Espresso
 | Library | Used For | Remark |
 |----- | ------ | ------ |
 | navigator | Switch two fragment  | ----- |
-| databing | binding layout xml to class level | Will be implement jetpack compose later |
+| databing | binding layout xml to class level | Also implemented jetpack compose later |
 | hilt | Dependency injection `di`  | ------ |
 | jacoco | Test report| ----|
 
@@ -54,13 +54,15 @@ project
 │   │
 └───base module
     │  stored base class concept
+└───jetpack-design-lib
+    │  stored common jetpack compose (like theme, dialog ...etc)
 │   │
 │   │        
 └───asset-page <--module 1
-    │   with Clean Architecture with MVVM
+    │   with Clean Architecture with MVI and fragment (base on activity)
     │   │
 └───market-page <--module 2
-    │   with Clean Architecture with MVVM
+    │   with Clean Architecture with MVVM and fragment (base on activity)
     │   │    
 ```
 
@@ -75,5 +77,5 @@ https://github.com/jchodev/clean-arch-mvvm/assets/100594737/4915be8c-3501-4558-8
 
 
 ## TODO
-1. Add new activity / pages with jetpack compose
+1. Replace MVVM to MVI
 2. ...
