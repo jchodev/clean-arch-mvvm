@@ -4,6 +4,7 @@ import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs
 import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs.Companion.testAssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.domain.usecase.GetAssetsUseCase
+import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvvm.AssetsViewModel
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
 import io.mockk.coEvery

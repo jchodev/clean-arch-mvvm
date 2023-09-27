@@ -3,13 +3,10 @@ package com.jerry.clean_arch_mvvm.presentation
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
-
-
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,27 +14,24 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.presentation.components.AssetItemComponent
 import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
-import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.AssetsViewModel
+import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvi.AssetsViewModel
+import com.jerry.clean_arch_mvvm.base.R
 import com.jerry.clean_arch_mvvm.base.presentation.BaseActivity
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.common.MyLoading
@@ -48,10 +42,8 @@ import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
 import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.MarketViewModel
 import com.jerry.clean_arch_mvvm.presentation.viewmodel.JetpackMainViewModel
-import kotlinx.coroutines.launch
 
-
-class JetpackMainActivity: BaseActivity() {
+class JetpackMVIMainActivity: BaseActivity() {
 
     enum class Route {
         ASSETS, MARKET
@@ -75,7 +67,7 @@ class JetpackMainActivity: BaseActivity() {
             )
         )
 
-       // marketViewModel.getMarketsByBaseId(it)
+        // marketViewModel.getMarketsByBaseId(it)
     }
 
     //views ....

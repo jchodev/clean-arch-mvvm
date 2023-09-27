@@ -1,8 +1,8 @@
-package com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel
+package com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvvm
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
 
 import androidx.lifecycle.viewModelScope
 
@@ -14,6 +14,7 @@ import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
 import com.jerry.clean_arch_mvvm.base.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -24,18 +25,14 @@ import javax.inject.Named
 class AssetsViewModel @Inject constructor(
     //we assign the dispatcher at here, BECAUSE for junit testing
     //https://developer.android.com/kotlin/coroutines/test
-    @Named("Dispatchers.Main") override var dispatcher: CoroutineDispatcher,
+    @Named("Dispatchers.Main")
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getAssetsUseCase: GetAssetsUseCase
-): BaseViewModel<AssetsIntent>(dispatcher) {
-
-    private val TAG = "AssetsViewModel"
+): ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<AssetUiItem>>>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
-    private val _listLiveData = MutableLiveData(emptyList<AssetUiItem>())
-    val listLiveData: LiveData<List<AssetUiItem>>
-        get() = _listLiveData
 
     fun getAssetList(){
         viewModelScope.launch(dispatcher) {
@@ -54,22 +51,7 @@ class AssetsViewModel @Inject constructor(
                         result.data
                     )
                 }
-
-                else -> {}
             }
         }
-    }
-
-    override fun handleIntent(intent: AssetsIntent) {
-        //TODO("Not yet implemented")
-        Log.d(TAG, "handleIntent::${intent}")
-        when (intent){
-            is AssetsIntent.Initial -> getAssetList()
-        }
-    }
-
-    override fun handleTracker(intent: AssetsIntent) {
-        //TODO("Not yet implemented")
-        Log.d(TAG, "handleTracker::${intent}")
     }
 }

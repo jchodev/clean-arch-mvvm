@@ -29,7 +29,7 @@
 <!--        </activity>-->
 
         <activity
-            android:name=".presentation.JetpackMainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/JetpackActivityTheme"
@@ -40,6 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".HomeActivity" android:theme="@style/HomeActivityTheme"/>
+        <activity android:name=".presentation.JetpackMVVMMainActivity" android:theme="@style/JetpackActivityTheme"/>
+        <activity android:name=".presentation.JetpackMVIMainActivity" android:theme="@style/JetpackActivityTheme"/>
     </application>
 
 </manifest>

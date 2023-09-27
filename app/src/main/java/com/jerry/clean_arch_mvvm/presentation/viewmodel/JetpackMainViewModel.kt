@@ -8,8 +8,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class JetpackMainViewModel @Inject constructor(
-): ViewModel() {
+class JetpackMainViewModel @Inject constructor(): ViewModel() {
 
     private val _showBackArrowLiveData = MutableLiveData<Boolean>()
     val showBackArrowLiveData: LiveData<Boolean>

@@ -50,7 +50,7 @@ project
 │   build.gradle    
 │
 └───app
-│   │
+│   │ HomeActivity - Fragment, JetpackMVVMMainActivity - MVVM, JetpackMVIMainActivity - MVI
 │   │
 └───base module
     │  stored base class concept

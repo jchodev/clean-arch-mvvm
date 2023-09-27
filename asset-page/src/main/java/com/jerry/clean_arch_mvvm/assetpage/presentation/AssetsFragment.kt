@@ -5,19 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 
 import com.jerry.clean_arch_mvvm.assetpage.R
 import com.jerry.clean_arch_mvvm.assetpage.databinding.FragmentAssetsBinding
 import com.jerry.clean_arch_mvvm.assetpage.presentation.adapter.AssetsAdapter
-import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.AssetsViewModel
+import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvvm.AssetsViewModel
 import com.jerry.clean_arch_mvvm.base.presentation.BaseFragment
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import kotlinx.coroutines.launch
