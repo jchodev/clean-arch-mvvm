@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.domain.usecase.GetAssetsUseCase
+import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsAction
 import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
@@ -26,7 +27,7 @@ class AssetsViewModel @Inject constructor(
     //https://developer.android.com/kotlin/coroutines/test
     @Named("Dispatchers.Main") override var dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getAssetsUseCase: GetAssetsUseCase
-): BaseViewModel<AssetsIntent>(dispatcher) {
+): BaseViewModel<AssetsIntent, AssetsAction>(dispatcher) {
 
     private val TAG = "AssetsViewModel"
 
@@ -56,17 +57,23 @@ class AssetsViewModel @Inject constructor(
         }
     }
 
-    override fun handleIntent(intent: AssetsIntent) {
+    override fun handleIntentTracker(intent: AssetsIntent) {
         //TODO("Not yet implemented")
-        Log.d(TAG, "handleIntent::${intent}")
-        when (intent){
-            is AssetsIntent.Initial -> getAssetList()
-            else -> {}
+    }
+
+    override fun handleActionTracker(action: AssetsAction) {
+        //TODO("Not yet implemented")
+    }
+
+    override fun handleIntent(intent: AssetsIntent): AssetsAction {
+        return when (intent){
+            is AssetsIntent.Initial -> AssetsAction.GetAssetsList
         }
     }
 
-    override fun handleTracker(intent: AssetsIntent) {
-        //TODO("Not yet implemented")
-        Log.d(TAG, "handleTracker::${intent}")
+    override fun handleAction(action: AssetsAction) {
+        when (action){
+            is AssetsAction.GetAssetsList -> getAssetList()
+        }
     }
 }

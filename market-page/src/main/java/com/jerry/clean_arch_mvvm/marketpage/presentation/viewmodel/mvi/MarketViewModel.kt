@@ -1,13 +1,14 @@
 package com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.mvi
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
+
 import androidx.lifecycle.viewModelScope
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.base.presentation.viewmodel.BaseRxMVIViewModel
 import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.domain.usecase.GetMarketUseCase
+import com.jerry.clean_arch_mvvm.marketpage.presentation.mvi.MarketAction
 import com.jerry.clean_arch_mvvm.marketpage.presentation.mvi.MarketIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,7 +25,7 @@ class MarketViewModel @Inject constructor(
     //https://developer.android.com/kotlin/coroutines/test
     @Named("Dispatchers.Main") override var dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getMarketUseCase: GetMarketUseCase
-): BaseRxMVIViewModel<MarketIntent>(dispatcher) {
+): BaseRxMVIViewModel<MarketIntent, MarketAction>(dispatcher) {
 
     private val TAG = "MarketViewModel"
 
@@ -53,17 +54,26 @@ class MarketViewModel @Inject constructor(
     }
     //-------------------------
 
-    override fun handleIntent(intent: MarketIntent) {
+    override fun handleIntent(intent: MarketIntent): MarketAction {
         Log.d(TAG, "handleIntent::${intent}")
 
-        when (intent){
-            is MarketIntent.Initial -> getMarketsByBaseId(intent.baseId)
-            else -> {}
+        return when (intent){
+            is MarketIntent.Initial -> MarketAction.GetMarketByBaseId(intent.baseId)
         }
     }
 
-    override fun handleTracker(intent: MarketIntent) {
-        Log.d(TAG, "handleTracker::${intent}")
+    override fun handleIntentTracker(intent: MarketIntent) {
+        Log.d(TAG, "handleIntentTracker::${intent}")
+    }
+
+    override fun handleActionTracker(action: MarketAction) {
+        Log.d(TAG, "handleActionTracker::${action}")
+    }
+
+    override fun handleAction(action: MarketAction) {
+        when (action){
+            is MarketAction.GetMarketByBaseId -> getMarketsByBaseId(action.baseId)
+        }
     }
 
 }
