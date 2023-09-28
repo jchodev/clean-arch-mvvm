@@ -13,6 +13,7 @@ import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
 import com.jerry.clean_arch_mvvm.base.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ import javax.inject.Named
 class AssetsViewModel @Inject constructor(
     //we assign the dispatcher at here, BECAUSE for junit testing
     //https://developer.android.com/kotlin/coroutines/test
-    @Named("Dispatchers.Main") override var dispatcher: CoroutineDispatcher,
+    @Named("Dispatchers.Main") override var dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getAssetsUseCase: GetAssetsUseCase
 ): BaseViewModel<AssetsIntent>(dispatcher) {
 
@@ -32,8 +33,7 @@ class AssetsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState<List<AssetUiItem>>>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
-
-    fun getAssetList(){
+    private fun getAssetList(){
         viewModelScope.launch(dispatcher) {
             _uiState.value = UiState.Loading
             when (val result = getAssetsUseCase()) {

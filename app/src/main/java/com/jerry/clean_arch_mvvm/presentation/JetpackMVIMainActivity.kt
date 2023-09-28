@@ -31,7 +31,6 @@ import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.presentation.components.AssetItemComponent
 import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
 import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvi.AssetsViewModel
-import com.jerry.clean_arch_mvvm.base.R
 import com.jerry.clean_arch_mvvm.base.presentation.BaseActivity
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.common.MyLoading
@@ -40,7 +39,8 @@ import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.topbar.MyTopBar
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
-import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.MarketViewModel
+import com.jerry.clean_arch_mvvm.marketpage.presentation.mvi.MarketIntent
+import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.mvi.MarketViewModel
 import com.jerry.clean_arch_mvvm.presentation.viewmodel.JetpackMainViewModel
 
 class JetpackMVIMainActivity: BaseActivity() {
@@ -190,7 +190,7 @@ class JetpackMVIMainActivity: BaseActivity() {
 
                             LaunchedEffect(baseId) {
                                 println("LaunchedEffect::baseId: ${baseId}")
-                                marketViewModel.getMarketsByBaseId(baseId = baseId)
+                                getMarketsByBaseId(baseId = baseId)
                             }
 
 
@@ -214,7 +214,7 @@ class JetpackMVIMainActivity: BaseActivity() {
                                     RetryDialog(
                                         mess = (uiState as UiState.Failure).errorAny,
                                         doRetry = {
-                                            marketViewModel.getMarketsByBaseId(baseId)
+                                            getMarketsByBaseId(baseId)
                                         }
                                     )
                                 }
@@ -222,7 +222,7 @@ class JetpackMVIMainActivity: BaseActivity() {
                                     RetryDialog(
                                         mess = (uiState as UiState.CustomerError).errorMessage,
                                         doRetry = {
-                                            marketViewModel.getMarketsByBaseId(baseId)
+                                            getMarketsByBaseId(baseId)
                                         }
                                     )
                                 }
@@ -241,6 +241,7 @@ class JetpackMVIMainActivity: BaseActivity() {
 
 
         assetsViewModel.initIntent()
+        marketViewModel.initIntent()
 
         getAssetList()
     }
@@ -248,6 +249,10 @@ class JetpackMVIMainActivity: BaseActivity() {
     private fun getAssetList(){
         assetsViewModel.sendIntent(AssetsIntent.Initial)
         //assetsViewModel.getAssetList()
+    }
+
+    private fun getMarketsByBaseId(baseId: String) {
+        marketViewModel.sendIntent(MarketIntent.Initial(baseId = baseId))
     }
 
 //    override fun onBackPressed() {

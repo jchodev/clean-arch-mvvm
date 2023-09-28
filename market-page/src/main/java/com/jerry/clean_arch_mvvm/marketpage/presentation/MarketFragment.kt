@@ -14,7 +14,7 @@ import com.jerry.clean_arch_mvvm.marketpage.R
 import com.jerry.clean_arch_mvvm.marketpage.databinding.FragmentMarketBinding
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
-import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.MarketViewModel
+import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.mvvm.MarketViewModel
 import kotlinx.coroutines.launch
 
 class MarketFragment : BaseFragment(R.layout.fragment_market) {

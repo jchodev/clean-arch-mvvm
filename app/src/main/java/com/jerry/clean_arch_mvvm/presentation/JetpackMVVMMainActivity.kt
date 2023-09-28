@@ -36,7 +36,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.presentation.components.AssetItemComponent
-import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
 import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvvm.AssetsViewModel
 import com.jerry.clean_arch_mvvm.base.presentation.BaseActivity
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
@@ -46,7 +45,7 @@ import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.topbar.MyTopBar
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
-import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.MarketViewModel
+import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.mvvm.MarketViewModel
 import com.jerry.clean_arch_mvvm.presentation.viewmodel.JetpackMainViewModel
 
 

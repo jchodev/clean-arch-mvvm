@@ -39,5 +39,8 @@ dependencies {
     testImplementation "${test.coroutines_test}"
     testImplementation "${test.mockk}"
 
+    // RxJava and RxAndroid
+    implementation "${rx.rx_java}"
+    implementation "${rx.rx_android}"
 
 }

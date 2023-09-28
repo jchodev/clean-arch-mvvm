@@ -6,6 +6,7 @@ import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs
 import com.jerry.clean_arch_mvvm.sharedtest.MarketTestStubs.Companion.testStr
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.domain.usecase.GetMarketUseCase
+import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.mvvm.MarketViewModel
 import io.mockk.coEvery
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockkClass
