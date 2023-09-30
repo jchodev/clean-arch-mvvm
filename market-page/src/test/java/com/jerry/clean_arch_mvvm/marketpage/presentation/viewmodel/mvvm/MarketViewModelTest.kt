@@ -93,7 +93,7 @@ class MarketViewModelTest {
     }
 
     @Test
-    fun `test markett view model ui state expected Customer error state`() = runTest {
+    fun `test markert view model ui state expected Customer error state`() = runTest {
         val useCaseResult = UseCaseResult.CustomerError(testStr)
 
         //assign

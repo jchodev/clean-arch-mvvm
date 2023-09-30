@@ -2,6 +2,8 @@ package com.jerry.clean_arch_mvvm.base.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.base.presentation.mvi.MviAction
 
 import com.jerry.clean_arch_mvvm.base.presentation.mvi.MviIntent
@@ -11,6 +13,9 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 //this is a base class which is used for MVI with RxJava PublishSubject
 abstract class BaseRxMVIViewModel<INTENT: MviIntent, ACTION: MviAction>(
@@ -27,10 +32,11 @@ abstract class BaseRxMVIViewModel<INTENT: MviIntent, ACTION: MviAction>(
 
     private fun observeOnIntentSubject(): Disposable {
         return onIntentPublishSubject
-/*            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())*/
+            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
             .doOnSubscribe {
                 Log.d("BaseRxMVIViewModel", "doOnSubscribe")
+                println("BaseRxMVIViewModel & doOnSubscribe")
             }
             .doOnNext {
                     handleIntentTracker(it)
@@ -52,6 +58,8 @@ abstract class BaseRxMVIViewModel<INTENT: MviIntent, ACTION: MviAction>(
             )
             .also { compositeDisposable.add(it) }
     }
+
+
 
     override fun onCleared() {
         compositeDisposable.clear()

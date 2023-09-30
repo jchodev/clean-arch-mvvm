@@ -51,7 +51,8 @@ project
 │
 └───app
 │   │ HomeActivity - Fragment, JetpackMVVMMainActivity - MVVM, JetpackMVIMainActivity - MVI
-│   │
+│   
+│
 └───base module
     │  stored base class concept
 └───jetpack-design-lib
@@ -60,9 +61,11 @@ project
 │   │        
 └───asset-page <--module 1
     │   with Clean Architecture with MVI and fragment (base on activity)
+    |   mvi\AssetsViewModel (MVI with Koltin Channl)
     │   │
 └───market-page <--module 2
     │   with Clean Architecture with MVVM and fragment (base on activity)
+    |   mvi\MarketViewModel (MVI with RxJava PublishSubject)
     │   │    
 ```
 
@@ -77,6 +80,6 @@ https://github.com/jchodev/clean-arch-mvvm/assets/100594737/4915be8c-3501-4558-8
 
 
 ## TODO
-1. Market page (MVI  unit test)
-2. jackpack MVVM and MVI UI test 
+1. jackpack MVVM and MVI UI test
+2. ...
 3. ...
