@@ -11,21 +11,17 @@ import com.jerry.clean_arch_mvvm.marketpage.domain.usecase.GetMarketUseCase
 import com.jerry.clean_arch_mvvm.marketpage.presentation.mvi.MarketAction
 import com.jerry.clean_arch_mvvm.marketpage.presentation.mvi.MarketIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
+
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
-    //we assign the dispatcher at here, BECAUSE for junit testing
-    //https://developer.android.com/kotlin/coroutines/test
-    @Named("Dispatchers.Main") override var dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getMarketUseCase: GetMarketUseCase
-): BaseRxMVIViewModel<MarketIntent, MarketAction>(dispatcher) {
+): BaseRxMVIViewModel<MarketIntent, MarketAction>() {
 
     private val TAG = "MarketViewModel"
 
@@ -35,7 +31,7 @@ class MarketViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private fun getMarketsByBaseId(baseId : String){
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             _uiState.value = UiState.Loading
             when (val result = getMarketUseCase(baseId = baseId)) {
                 is UseCaseResult.Failure -> {

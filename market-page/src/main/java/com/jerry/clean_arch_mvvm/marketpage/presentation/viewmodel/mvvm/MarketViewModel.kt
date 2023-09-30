@@ -17,10 +17,6 @@ import javax.inject.Named
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
-    //we assign the dispatcher at here, BECAUSE for junit testing
-    //https://developer.android.com/kotlin/coroutines/test
-    @Named("Dispatchers.Main")
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getMarketUseCase: GetMarketUseCase
 ): ViewModel() {
 
@@ -28,7 +24,7 @@ class MarketViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun getMarketsByBaseId(baseId : String){
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             _uiState.value = UiState.Loading
             when (val result = getMarketUseCase(baseId = baseId)) {
                 is UseCaseResult.Failure -> {

@@ -43,4 +43,9 @@ dependencies {
     implementation "${rx.rx_java}"
     implementation "${rx.rx_android}"
 
+
+    //turbine
+    implementation "${test.koltinTest}"
+    implementation "${test.turbine}"
+
 }

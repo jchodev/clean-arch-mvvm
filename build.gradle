@@ -40,7 +40,9 @@ buildscript {
                 jetpack_compose_livedata_runtime : "1.3.3",
 
                 rx_java : "2.2.21",
-                rx_android: "2.1.1"
+                rx_android: "2.1.1",
+
+                turbine: "1.0.0"
         ]
 
         gradlePlugins = [
@@ -82,6 +84,9 @@ buildscript {
                 mockServer : "com.squareup.okhttp3:mockwebserver:${versions.mock_server}",
 
                 espresso_contrib: "androidx.test.espresso:espresso-contrib:${versions.esoresso_contrib}",
+
+                koltinTest : "org.jetbrains.kotlin:kotlin-test",
+                turbine: "app.cash.turbine:turbine:${versions.turbine}"
         ]
 
         jetpack = [

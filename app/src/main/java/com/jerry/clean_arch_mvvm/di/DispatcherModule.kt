@@ -3,12 +3,14 @@ package com.jerry.clean_arch_mvvm.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Named
 
+/*
+    for testing only, can be remove
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object DispatcherModule {

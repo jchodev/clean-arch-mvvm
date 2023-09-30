@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 
 //this is a base class which is used for MVI with RxJava PublishSubject
 abstract class BaseRxMVIViewModel<INTENT: MviIntent, ACTION: MviAction>(
-    open var dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -28,8 +27,8 @@ abstract class BaseRxMVIViewModel<INTENT: MviIntent, ACTION: MviAction>(
 
     private fun observeOnIntentSubject(): Disposable {
         return onIntentPublishSubject
-            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())
+//            .observeOn(Schedulers.io())
+//            .subscribeOn(Schedulers.io())
             .doOnSubscribe {
                 Log.d("BaseRxMVIViewModel", "doOnSubscribe")
             }
