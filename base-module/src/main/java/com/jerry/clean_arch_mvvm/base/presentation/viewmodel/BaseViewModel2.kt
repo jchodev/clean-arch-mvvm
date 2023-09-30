@@ -5,37 +5,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jerry.clean_arch_mvvm.base.presentation.mvi.MviAction
 import com.jerry.clean_arch_mvvm.base.presentation.mvi.MviIntent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-//this is a base class which is used for MVI with flow channel
-abstract class BaseViewModel<INTENT: MviIntent, ACTION: MviAction>() : ViewModel() {
-
-    private val TAG : String = "BaseViewModel"
+abstract class BaseViewModel2<INTENT: MviIntent, ACTION: MviAction>(): ViewModel(){
+    private val TAG : String = "BaseViewModel2"
 
     //from UI Intent Channel
     private val intentChannel = Channel<INTENT>()
 
     fun sendIntent(intent: INTENT) {
-        viewModelScope.launch {
-            intentChannel.send(intent)
+        viewModelScope.launch  {
+            Log.d(TAG, "intent :: ${intent}")
+            handleIntentTracker(intent)
+            val action = handleIntent(intent)
+            Log.d(TAG, "action :: ${action}")
+            handleActionTracker(action)
+            handleAction(action)
         }
     }
 
     //base on intent type to fire action
-    protected abstract fun handleIntent(intent: INTENT) : ACTION
-    protected abstract fun handleAction(action: ACTION)
+    protected abstract suspend fun handleIntent(intent: INTENT) : ACTION
+    protected abstract suspend fun handleAction(action: ACTION)
 
     //which is send event to GA4 / tracking logging
-    protected abstract fun handleIntentTracker(intent: INTENT)
+    protected abstract suspend fun handleIntentTracker(intent: INTENT)
 
     //which is send event to GA4 / tracking logging
-    protected abstract fun handleActionTracker(action: ACTION)
+    protected abstract suspend fun handleActionTracker(action: ACTION)
 
     fun initIntent(){
         viewModelScope.launch {
@@ -44,10 +44,10 @@ abstract class BaseViewModel<INTENT: MviIntent, ACTION: MviAction>() : ViewModel
                     Log.d("BaseViewModel", "onStart")
                 }
                 .collect {
-                    Log.d(TAG ,"intent :: ${it}")
+                    Log.d(TAG, "intent :: ${it}")
                     handleIntentTracker(it)
                     val action = handleIntent(it)
-                    Log.d(TAG ,"action :: ${action}")
+                    Log.d(TAG, "action :: ${action}")
                     handleActionTracker(action)
                     handleAction(action)
                 }

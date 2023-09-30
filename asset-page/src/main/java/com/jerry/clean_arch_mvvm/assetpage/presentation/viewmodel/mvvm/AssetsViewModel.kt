@@ -1,43 +1,32 @@
 package com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvvm
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-
-
 import androidx.lifecycle.viewModelScope
 
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.domain.usecase.GetAssetsUseCase
-import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
 import com.jerry.clean_arch_mvvm.base.usecase.UseCaseResult
-import com.jerry.clean_arch_mvvm.base.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
+
 
 @HiltViewModel
 class AssetsViewModel @Inject constructor(
-    //we assign the dispatcher at here, BECAUSE for junit testing
-    //https://developer.android.com/kotlin/coroutines/test
-    @Named("Dispatchers.Main")
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val getAssetsUseCase: GetAssetsUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<AssetUiItem>>>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
-
     fun getAssetList(){
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             _uiState.value = UiState.Loading
-            when (val result = getAssetsUseCase()) {
+            when (val result = getAssetsUseCase.invoke()) {
                 is UseCaseResult.Failure -> {
                     _uiState.value = UiState.Failure(result.throwable)
                 }

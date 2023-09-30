@@ -1,6 +1,7 @@
 package com.jerry.clean_arch_mvvm.assetpage.domain.usecase
 
 
+import app.cash.turbine.test
 import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs.Companion.errorMessage
 import com.jerry.clean_arch_mvvm.sharedtest.AssetsTestStubs.Companion.testAssetsResponseData
 import com.jerry.clean_arch_mvvm.assetpage.data.mapper.AssetMapper
@@ -38,13 +39,34 @@ class GetAssetsUseCaseTest {
     }
 
     @Test
+    fun `test GetAssetsUseCase invoke2() return success state`() = runTest {
+        //assign
+        coEvery { assetsRepository.getAssets() } returns testAssetsResponseData
+
+        //action
+        val actual = getAssetsUseCase.invoke2()
+
+        actual.test {
+            val firstResult = awaitItem()
+            assertTrue(firstResult is UseCaseResult.Success)
+            assertEquals(
+                (firstResult as UseCaseResult.Success<List<AssetUiItem>>).data.size,
+                testAssetsResponseData.assetData!!.size
+            )
+
+            awaitComplete()
+        }
+
+    }
+
+    @Test
     fun `test GetAssetsUseCase invoke() return success state`() = runTest {
 
         //assign
         coEvery { assetsRepository.getAssets() } returns testAssetsResponseData
 
         //action
-        val actual = getAssetsUseCase()
+        val actual = getAssetsUseCase.invoke()
 
         //verify
         assertTrue(actual is UseCaseResult.Success)
@@ -66,7 +88,7 @@ class GetAssetsUseCaseTest {
         coEvery { assetsRepository.getAssets() } returns result
 
         //action
-        val actual = getAssetsUseCase()
+        val actual = getAssetsUseCase.invoke()
 
         //verify
         assertTrue(actual is UseCaseResult.CustomerError)
@@ -82,7 +104,7 @@ class GetAssetsUseCaseTest {
         coEvery { assetsRepository.getAssets() }.throws(SocketTimeoutException())
 
         //action
-        val actual = getAssetsUseCase()
+        val actual = getAssetsUseCase.invoke()
 
         //verify
         assertTrue(actual is UseCaseResult.Failure)
