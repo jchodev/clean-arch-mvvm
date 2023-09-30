@@ -43,7 +43,7 @@ class GetMarketUseCaseTest {
         coEvery { repository.getMarket(any()) } returns testMarketResponseData
 
         //action
-        val actual = usecase("")
+        val actual = usecase.invoke("")
 
         //verify
         Assertions.assertTrue(actual is UseCaseResult.Success)
@@ -64,7 +64,7 @@ class GetMarketUseCaseTest {
         coEvery { repository.getMarket(any()) } returns result
 
         //action
-        val actual = usecase("")
+        val actual = usecase.invoke("")
 
         //verify
         Assertions.assertTrue(actual is UseCaseResult.CustomerError)
@@ -80,7 +80,7 @@ class GetMarketUseCaseTest {
         coEvery { repository.getMarket(any()) }.throws(SocketTimeoutException())
 
         //action
-        val actual = usecase("")
+        val actual = usecase.invoke("")
 
         //verify
         Assertions.assertTrue(actual is UseCaseResult.Failure)
@@ -100,7 +100,7 @@ class GetMarketUseCaseTest {
         coEvery { repository.getMarket(any()) } returns result
 
         //action
-        val actual = usecase("")
+        val actual = usecase.invoke("")
 
         //verify
         Assertions.assertTrue(actual is UseCaseResult.Failure)

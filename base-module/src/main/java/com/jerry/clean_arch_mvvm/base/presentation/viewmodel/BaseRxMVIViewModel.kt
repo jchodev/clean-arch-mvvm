@@ -27,13 +27,12 @@ abstract class BaseRxMVIViewModel<INTENT: MviIntent, ACTION: MviAction>(
 
     private fun observeOnIntentSubject(): Disposable {
         return onIntentPublishSubject
-//            .observeOn(Schedulers.io())
-//            .subscribeOn(Schedulers.io())
+/*            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())*/
             .doOnSubscribe {
                 Log.d("BaseRxMVIViewModel", "doOnSubscribe")
             }
             .doOnNext {
-                    //aaa-> println("aaa1: ${aaa}")
                     handleIntentTracker(it)
             }
             .map {
@@ -41,7 +40,7 @@ abstract class BaseRxMVIViewModel<INTENT: MviIntent, ACTION: MviAction>(
             }
             .doOnNext {
                 handleActionTracker(it)
-
+                handleAction(it)
             }
             .subscribe(
                 {

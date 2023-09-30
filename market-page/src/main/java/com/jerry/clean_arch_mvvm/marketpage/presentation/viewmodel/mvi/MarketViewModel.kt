@@ -33,7 +33,7 @@ class MarketViewModel @Inject constructor(
     private fun getMarketsByBaseId(baseId : String){
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            when (val result = getMarketUseCase(baseId = baseId)) {
+            when (val result = getMarketUseCase.invoke(baseId = baseId)) {
                 is UseCaseResult.Failure -> {
                     _uiState.value = UiState.Failure(result.throwable)
                 }

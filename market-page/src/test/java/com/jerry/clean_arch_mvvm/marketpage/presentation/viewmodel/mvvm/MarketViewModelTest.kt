@@ -52,7 +52,7 @@ class MarketViewModelTest {
         val useCaseResult = UseCaseResult.Success(MarketTestStubs.testMarketUiItem)
 
         //assign
-        coEvery { useCase(any()) } returns useCaseResult
+        coEvery { useCase.invoke(any()) } returns useCaseResult
 
         //action
         viewModel.getMarketsByBaseId("")
@@ -75,7 +75,7 @@ class MarketViewModelTest {
         val useCaseResult = UseCaseResult.Failure(throwable = SocketTimeoutException())
 
         //assign
-        coEvery { useCase(any()) } returns useCaseResult
+        coEvery { useCase.invoke(any()) } returns useCaseResult
 
         //action
         viewModel.getMarketsByBaseId("")
@@ -97,7 +97,7 @@ class MarketViewModelTest {
         val useCaseResult = UseCaseResult.CustomerError(testStr)
 
         //assign
-        coEvery { useCase(any()) } returns useCaseResult
+        coEvery { useCase.invoke(any()) } returns useCaseResult
 
         //action
         viewModel.getMarketsByBaseId("")

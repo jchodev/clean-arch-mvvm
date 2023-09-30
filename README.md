@@ -77,5 +77,6 @@ https://github.com/jchodev/clean-arch-mvvm/assets/100594737/4915be8c-3501-4558-8
 
 
 ## TODO
-1. Replace MVVM to MVI
-2. ...
+1. Market page (MVI  unit test)
+2. jackpack MVVM and MVI UI test 
+3. ...
