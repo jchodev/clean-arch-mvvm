@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,8 +27,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 
 import androidx.navigation.NavHostController
@@ -36,6 +42,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.presentation.components.AssetItemComponent
+import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
 import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvvm.AssetsViewModel
 import com.jerry.clean_arch_mvvm.base.presentation.BaseActivity
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
@@ -45,6 +52,7 @@ import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.topbar.MyTopBar
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
+import com.jerry.clean_arch_mvvm.marketpage.presentation.mvi.MarketIntent
 import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.mvvm.MarketViewModel
 import com.jerry.clean_arch_mvvm.presentation.viewmodel.JetpackMainViewModel
 
@@ -90,11 +98,12 @@ class JetpackMVVMMainActivity: BaseActivity() {
     }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         this.onBackPressedDispatcher.addCallback (this, callback)
+
         setContent {
             MyAppTheme {
                 Scaffold(
@@ -105,21 +114,26 @@ class JetpackMVVMMainActivity: BaseActivity() {
                     navController.addOnDestinationChangedListener { _, navDestination, _ ->
                         //destinationChanged.value = navDestination.route
                         viewModel.setShowBackArrowLiveData(
-                            value = navDestination.route?.contains(Route.MARKET.toString()) ?: false
+                            value = navDestination.route?.contains(JetpackMVIMainActivity.Route.MARKET.toString()) ?: false
                         )
                     }
 
                     NavHost(
                         modifier = Modifier.padding(it),
                         navController = navController,
-                        startDestination = Route.ASSETS.toString()
+                        startDestination = JetpackMVIMainActivity.Route.ASSETS.toString()
                     ) {
                         //asset page
                         composable(
-                            route = Route.ASSETS.toString()
+                            route = JetpackMVIMainActivity.Route.ASSETS.toString()
                         ) {
 
                             val uiState by assetsViewModel.uiState.collectAsState()
+
+                            val pullRefreshState = rememberPullRefreshState(
+                                refreshing = uiState == UiState.Loading,
+                                onRefresh = { getAssetList() }
+                            )
 
                             when (uiState) {
                                 is UiState.Loading -> {
@@ -131,6 +145,7 @@ class JetpackMVVMMainActivity: BaseActivity() {
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxSize()
+                                                .pullRefresh(pullRefreshState)
                                         ){
                                             LazyColumn(
                                                 modifier = Modifier.fillMaxSize()
@@ -145,6 +160,13 @@ class JetpackMVVMMainActivity: BaseActivity() {
                                                     )
                                                 }
                                             }
+
+                                            PullRefreshIndicator(
+                                                refreshing = uiState == UiState.Loading,
+                                                state = pullRefreshState,
+                                                modifier = Modifier.align(Alignment.TopCenter),
+                                                backgroundColor = Color.White,
+                                            )
                                         }
 
                                     }
@@ -175,7 +197,7 @@ class JetpackMVVMMainActivity: BaseActivity() {
 
                         composable(
                             //%s/?%s=%s
-                            route = Route.MARKET.toString().plus(
+                            route = JetpackMVIMainActivity.Route.MARKET.toString().plus(
                                 "/?baseId={baseId}"
                             ),
                             arguments = listOf(
@@ -189,18 +211,20 @@ class JetpackMVVMMainActivity: BaseActivity() {
                             //make it call one time only
                             /*
                             LaunchedEffect: is executed once when entered inside the composition. And it is canceled when leaving the composition.
-                            LaunchedEffect: cancels/re-launch when Keys state changes
-                            LaunchedEffect: must have at least one key
-                            LaunchedEffect: Scope’s Dispatcher is Main.
+                                            cancels/re-launch when Keys state changes
+                                            must have at least one key
+                                            Scope’s Dispatcher is Main.
                             */
 
                             LaunchedEffect(baseId) {
                                 println("LaunchedEffect::baseId: ${baseId}")
-                                marketViewModel.getMarketsByBaseId(baseId = baseId)
+                                getMarketsByBaseId(baseId = baseId)
                             }
 
 
                             val uiState by marketViewModel.uiState.collectAsState()
+
+
 
                             when (uiState) {
                                 is UiState.Loading -> {
@@ -220,7 +244,7 @@ class JetpackMVVMMainActivity: BaseActivity() {
                                     RetryDialog(
                                         mess = (uiState as UiState.Failure).errorAny,
                                         doRetry = {
-                                            marketViewModel.getMarketsByBaseId(baseId)
+                                            getMarketsByBaseId(baseId)
                                         }
                                     )
                                 }
@@ -228,7 +252,7 @@ class JetpackMVVMMainActivity: BaseActivity() {
                                     RetryDialog(
                                         mess = (uiState as UiState.CustomerError).errorMessage,
                                         doRetry = {
-                                            marketViewModel.getMarketsByBaseId(baseId)
+                                            getMarketsByBaseId(baseId)
                                         }
                                     )
                                 }
@@ -245,15 +269,7 @@ class JetpackMVVMMainActivity: BaseActivity() {
             }
         }
 
-
-
-
         getAssetList()
-    }
-
-    private fun getAssetList(){
-
-        assetsViewModel.getAssetList()
     }
 
 //    override fun onBackPressed() {
@@ -306,5 +322,13 @@ class JetpackMVVMMainActivity: BaseActivity() {
             }
         }
         return message
+    }
+
+    private fun getAssetList(){
+        assetsViewModel.getAssetList()
+    }
+
+    private fun getMarketsByBaseId(baseId: String) {
+        marketViewModel.getMarketsByBaseId(baseId = baseId)
     }
 }

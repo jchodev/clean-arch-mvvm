@@ -11,6 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,7 +25,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -84,7 +92,7 @@ class JetpackMVIMainActivity: BaseActivity() {
     }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -115,6 +123,11 @@ class JetpackMVIMainActivity: BaseActivity() {
 
                             val uiState by assetsViewModel.uiState.collectAsState()
 
+                            val pullRefreshState = rememberPullRefreshState(
+                                refreshing = uiState == UiState.Loading,
+                                onRefresh = { getAssetList() }
+                            )
+
                             when (uiState) {
                                 is UiState.Loading -> {
                                     MyLoading()
@@ -125,6 +138,7 @@ class JetpackMVIMainActivity: BaseActivity() {
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxSize()
+                                                .pullRefresh(pullRefreshState)
                                         ){
                                             LazyColumn(
                                                 modifier = Modifier.fillMaxSize()
@@ -139,6 +153,13 @@ class JetpackMVIMainActivity: BaseActivity() {
                                                     )
                                                 }
                                             }
+
+                                            PullRefreshIndicator(
+                                                refreshing = uiState == UiState.Loading,
+                                                state = pullRefreshState,
+                                                modifier = Modifier.align(Alignment.TopCenter),
+                                                backgroundColor = Color.White,
+                                            )
                                         }
 
                                     }
@@ -183,9 +204,9 @@ class JetpackMVIMainActivity: BaseActivity() {
                             //make it call one time only
                             /*
                             LaunchedEffect: is executed once when entered inside the composition. And it is canceled when leaving the composition.
-                            LaunchedEffect: cancels/re-launch when Keys state changes
-                            LaunchedEffect: must have at least one key
-                            LaunchedEffect: Scope’s Dispatcher is Main.
+                                            cancels/re-launch when Keys state changes
+                                            must have at least one key
+                                            Scope’s Dispatcher is Main.
                             */
 
                             LaunchedEffect(baseId) {
@@ -195,6 +216,8 @@ class JetpackMVIMainActivity: BaseActivity() {
 
 
                             val uiState by marketViewModel.uiState.collectAsState()
+
+
 
                             when (uiState) {
                                 is UiState.Loading -> {
@@ -238,7 +261,6 @@ class JetpackMVIMainActivity: BaseActivity() {
                 }
             }
         }
-
 
         assetsViewModel.initIntent()
         marketViewModel.initIntent()
