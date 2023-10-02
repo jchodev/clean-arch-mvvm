@@ -69,6 +69,11 @@ project
     │   │    
 ```
 
+### UI video
+https://github.com/jchodev/clean-arch-mvvm/assets/100594737/b8597a9f-9379-460a-ba30-fee948c2bb99
+
+
+
 
 ### UI test demo
 https://github.com/jchodev/clean-arch-mvvm/assets/100594737/4915be8c-3501-4558-812f-13c09a47f58a
