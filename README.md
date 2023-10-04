@@ -37,7 +37,8 @@ Espresso
 | Library | Used For | Remark |
 |----- | ------ | ------ |
 | navigator | Switch two fragment  | ----- |
-| databing | binding layout xml to class level | Also implemented jetpack compose later |
+| databing | binding layout xml to class level | ---- |
+| jetpack | Jetpack compose | ---- |
 | hilt | Dependency injection `di`  | ------ |
 | jacoco | Test report| ----|
 
@@ -61,7 +62,7 @@ project
 │   │        
 └───asset-page <--module 1
     │   with Clean Architecture with MVI and fragment (base on activity)
-    |   mvi\AssetsViewModel (MVI with Koltin Channl)
+    |   mvi\AssetsViewModel (MVI with Koltin Channel)
     │   │
 └───market-page <--module 2
     │   with Clean Architecture with MVVM and fragment (base on activity)
