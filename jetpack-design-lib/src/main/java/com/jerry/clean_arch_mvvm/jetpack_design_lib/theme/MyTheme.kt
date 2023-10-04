@@ -3,6 +3,8 @@ package com.jerry.clean_arch_mvvm.jetpack_design_lib.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyColor.Companion.Black
@@ -52,6 +54,8 @@ fun MyAppTheme(
 
     MaterialTheme(
         content = content,
-        colorScheme = ourColorScheme
+        colorScheme = ourColorScheme,
+        shapes = Shapes(),
+        typography = Typography()
     )
 }

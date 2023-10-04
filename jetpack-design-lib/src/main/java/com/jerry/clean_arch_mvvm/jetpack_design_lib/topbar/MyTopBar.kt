@@ -20,7 +20,7 @@ import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopBar(
-    title: String = "",
+    titleState: State<String?>,
     visibleState: State<Boolean?>,
     onClick: () -> Unit
 ) {
@@ -28,7 +28,7 @@ fun MyTopBar(
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.primary),
         title = {
-            MyTitleText(text = title)
+            MyTitleText(text = titleState.value ?: "")
         },
         navigationIcon = {
             AnimatedVisibility(
@@ -60,7 +60,8 @@ fun MyTopBar(
 @Composable
 fun MyTopBarPreview(){
     MyAppTheme {
-        MyTopBar(title = "this is title",
+        MyTopBar(
+            titleState = remember { mutableStateOf("this is tile") },
             onClick = { },
             visibleState = remember { mutableStateOf(true) }
         )

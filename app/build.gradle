@@ -104,6 +104,8 @@ dependencies {
 
     androidTestImplementation "${test.espresso_contrib}"
 
+    androidTestImplementation "${test.core_ktx}"
+
 }
 
 // Allow references to generated code {https://developer.android.com/training/dependency-injection/hilt-android}

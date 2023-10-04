@@ -81,7 +81,8 @@ class JetpackMVIMainActivity: BaseActivity() {
     //views ....
 
     private val topBarView = @Composable {
-        MyTopBar(title = "Assets List",
+        MyTopBar(
+            titleState = viewModel.topBarTitleLiveData.observeAsState(),
             onClick = onBackArrowClick,
             visibleState = viewModel.showBackArrowLiveData.observeAsState()
         )
@@ -108,6 +109,13 @@ class JetpackMVIMainActivity: BaseActivity() {
                         //destinationChanged.value = navDestination.route
                         viewModel.setShowBackArrowLiveData(
                             value = navDestination.route?.contains(Route.MARKET.toString()) ?: false
+                        )
+                        viewModel.setTopBarTitleLiveData(
+                            value = if (navDestination.route?.contains(Route.MARKET.toString()) == true ) {
+                                Route.MARKET.toString()
+                            } else {
+                                Route.ASSETS.toString()
+                            }
                         )
                     }
 

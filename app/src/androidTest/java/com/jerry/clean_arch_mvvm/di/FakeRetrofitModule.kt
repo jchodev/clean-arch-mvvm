@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -23,13 +24,12 @@ object FakeRetrofitModule {
     @Provides
     @Singleton
     fun providesRetrofit(): Retrofit {
-
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val builder = OkHttpClient.Builder()
-            .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-            .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+            .connectTimeout(1, TimeUnit.SECONDS)
+            .readTimeout(1, TimeUnit.SECONDS)
 
 
         builder.addInterceptor(interceptor)
@@ -41,7 +41,7 @@ object FakeRetrofitModule {
         return Retrofit.Builder()
             .client(builder.build())
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("http://127.0.0.1:8080")
+            .baseUrl("http://localhost:8080")
             .build()
     }
 

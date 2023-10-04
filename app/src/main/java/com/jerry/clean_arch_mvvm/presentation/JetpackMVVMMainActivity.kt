@@ -31,6 +31,8 @@ import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 
 import androidx.navigation.NavHostController
@@ -42,7 +44,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jerry.clean_arch_mvvm.assetpage.domain.entities.ui.AssetUiItem
 import com.jerry.clean_arch_mvvm.assetpage.presentation.components.AssetItemComponent
-import com.jerry.clean_arch_mvvm.assetpage.presentation.mvi.AssetsIntent
+
 import com.jerry.clean_arch_mvvm.assetpage.presentation.viewmodel.mvvm.AssetsViewModel
 import com.jerry.clean_arch_mvvm.base.presentation.BaseActivity
 import com.jerry.clean_arch_mvvm.base.presentation.UiState
@@ -52,8 +54,9 @@ import com.jerry.clean_arch_mvvm.jetpack_design_lib.theme.MyAppTheme
 import com.jerry.clean_arch_mvvm.jetpack_design_lib.topbar.MyTopBar
 import com.jerry.clean_arch_mvvm.marketpage.domain.entities.ui.MarketUiItem
 import com.jerry.clean_arch_mvvm.marketpage.exception.MarketNotFoundException
-import com.jerry.clean_arch_mvvm.marketpage.presentation.mvi.MarketIntent
+
 import com.jerry.clean_arch_mvvm.marketpage.presentation.viewmodel.mvvm.MarketViewModel
+import com.jerry.clean_arch_mvvm.presentation.compose.AssetScreen
 import com.jerry.clean_arch_mvvm.presentation.viewmodel.JetpackMainViewModel
 
 
@@ -87,7 +90,8 @@ class JetpackMVVMMainActivity: BaseActivity() {
     //views ....
 
     private val topBarView = @Composable {
-        MyTopBar(title = "Assets List",
+        MyTopBar(
+            titleState = viewModel.topBarTitleLiveData.observeAsState(),
             onClick = onBackArrowClick,
             visibleState = viewModel.showBackArrowLiveData.observeAsState()
         )
@@ -114,7 +118,14 @@ class JetpackMVVMMainActivity: BaseActivity() {
                     navController.addOnDestinationChangedListener { _, navDestination, _ ->
                         //destinationChanged.value = navDestination.route
                         viewModel.setShowBackArrowLiveData(
-                            value = navDestination.route?.contains(JetpackMVIMainActivity.Route.MARKET.toString()) ?: false
+                            value = navDestination.route?.contains(Route.MARKET.toString()) ?: false
+                        )
+                        viewModel.setTopBarTitleLiveData(
+                            value = if (navDestination.route?.contains(Route.MARKET.toString()) == true){
+                                Route.MARKET.toString()
+                            } else {
+                                Route.ASSETS.toString()
+                            }
                         )
                     }
 
@@ -129,70 +140,75 @@ class JetpackMVVMMainActivity: BaseActivity() {
                         ) {
 
                             val uiState by assetsViewModel.uiState.collectAsState()
+//                            val pullRefreshState = rememberPullRefreshState(
+//                                refreshing = uiState == UiState.Loading,
+//                                onRefresh = { getAssetList() }
+//                            )
+//
+//                            when (uiState) {
+//                                is UiState.Loading -> {
+//                                    MyLoading()
+//                                }
+//                                is UiState.Success -> {
+//                                    val list = (uiState as UiState.Success<List<AssetUiItem>>).data
+//                                    if (list.isNotEmpty()) {
+//                                        Box(
+//                                            modifier = Modifier
+//                                                .fillMaxSize()
+//                                                .pullRefresh(pullRefreshState)
+//                                        ){
+//                                            LazyColumn(
+//                                                modifier = Modifier.fillMaxSize()
+//                                            ) {
+//                                                itemsIndexed(items = list){ index, item ->
+//                                                    AssetItemComponent(
+//                                                        assetsName = item.name!!,
+//                                                        assetCode = item.symbol!!,
+//                                                        assetPrice = item.price!!,
+//                                                        assetId = item.id,
+//                                                        onAssetItemClick = onAssetItemClick
+//                                                    )
+//                                                }
+//                                            }
+//
+//                                            PullRefreshIndicator(
+//                                                refreshing = uiState == UiState.Loading,
+//                                                state = pullRefreshState,
+//                                                modifier = Modifier.align(Alignment.TopCenter),
+//                                                backgroundColor = Color.White,
+//                                            )
+//                                        }
+//
+//                                    }
+//                                }
+//                                is UiState.Failure -> {
+//                                    RetryDialog(
+//                                        mess = (uiState as UiState.Failure).errorAny,
+//                                        doRetry = {
+//                                            getAssetList()
+//                                        }
+//                                    )
+//                                }
+//                                is UiState.CustomerError -> {
+//                                    RetryDialog(
+//                                        mess = (uiState as UiState.CustomerError).errorMessage,
+//                                        doRetry = {
+//                                            getAssetList()
+//                                        }
+//                                    )
+//                                }
+//                                else -> {
+//
+//                                }
+//                            }
 
-                            val pullRefreshState = rememberPullRefreshState(
-                                refreshing = uiState == UiState.Loading,
-                                onRefresh = { getAssetList() }
+                            //TODO: https://developer.android.com/jetpack/compose/testing
+                            AssetScreen(
+                                uiState = assetsViewModel.uiState.collectAsState(),
+                                doRetry = {getAssetList()},
+                                onRetryDialogDismiss = {navController.popBackStack()},
+                                onAssetItemClick = onAssetItemClick
                             )
-
-                            when (uiState) {
-                                is UiState.Loading -> {
-                                    MyLoading()
-                                }
-                                is UiState.Success -> {
-                                    val list = (uiState as UiState.Success<List<AssetUiItem>>).data
-                                    if (list.isNotEmpty()) {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .pullRefresh(pullRefreshState)
-                                        ){
-                                            LazyColumn(
-                                                modifier = Modifier.fillMaxSize()
-                                            ) {
-                                                itemsIndexed(items = list){ index, item ->
-                                                    AssetItemComponent(
-                                                        assetsName = item.name!!,
-                                                        assetCode = item.symbol!!,
-                                                        assetPrice = item.price!!,
-                                                        assetId = item.id,
-                                                        onAssetItemClick = onAssetItemClick
-                                                    )
-                                                }
-                                            }
-
-                                            PullRefreshIndicator(
-                                                refreshing = uiState == UiState.Loading,
-                                                state = pullRefreshState,
-                                                modifier = Modifier.align(Alignment.TopCenter),
-                                                backgroundColor = Color.White,
-                                            )
-                                        }
-
-                                    }
-                                }
-                                is UiState.Failure -> {
-                                    RetryDialog(
-                                        mess = (uiState as UiState.Failure).errorAny,
-                                        doRetry = {
-                                            getAssetList()
-                                        }
-                                    )
-                                }
-                                is UiState.CustomerError -> {
-                                    RetryDialog(
-                                        mess = (uiState as UiState.CustomerError).errorMessage,
-                                        doRetry = {
-                                            getAssetList()
-                                        }
-                                    )
-                                }
-                                else -> {
-
-                                }
-                            }
-
-
                         }
 
                         composable(
@@ -310,15 +326,16 @@ class JetpackMVVMMainActivity: BaseActivity() {
         )
     }
 
+    @Composable
     private fun getErrorMessage(mess: Any) : String {
         var message = ""
         message = if (mess is String)
             mess
         else {
             if (mess is MarketNotFoundException) {
-                getString(com.jerry.clean_arch_mvvm.base.R.string.record_not_found_error)
+                stringResource(com.jerry.clean_arch_mvvm.base.R.string.record_not_found_error)
             } else {
-                getString(com.jerry.clean_arch_mvvm.base.R.string.some_error)
+                stringResource(com.jerry.clean_arch_mvvm.base.R.string.some_error)
             }
         }
         return message

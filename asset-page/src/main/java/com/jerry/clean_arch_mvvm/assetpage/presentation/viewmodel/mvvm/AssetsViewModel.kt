@@ -26,7 +26,9 @@ class AssetsViewModel @Inject constructor(
     fun getAssetList(){
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            when (val result = getAssetsUseCase.invoke()) {
+            val result = getAssetsUseCase.invoke()
+            println("result ${result}")
+            when (result) {
                 is UseCaseResult.Failure -> {
                     _uiState.value = UiState.Failure(result.throwable)
                 }
