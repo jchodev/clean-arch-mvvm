@@ -4,6 +4,7 @@ package com.jerry.clean_arch_mvvm.presentation
 import android.os.SystemClock
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -47,9 +48,11 @@ class HomeActivityTest {
     private val HTTP_ERROR = "Something went wrong"
     private val RECORD_NOT_FOUND = "Record not found"
 
-    @Rule
-    @JvmField
-    var homeActivityResult = ActivityTestRule(HomeActivity::class.java, true, false)
+//    @Rule
+//    @JvmField
+// was replaced with launchActivity<HomeActivity>(null)
+//    var homeActivityResult = ActivityTestRule(HomeActivity::class.java, true, false)
+
 
     /*
         Step for this test:
@@ -67,7 +70,7 @@ class HomeActivityTest {
     fun test_all_case() {
 
         //launch activity
-        homeActivityResult.launchActivity(null)
+        launchActivity<HomeActivity>(null)
 
         //assets - http error
         mockNetworkResponse("assets-customer-error", HttpURLConnection.HTTP_NOT_FOUND)
